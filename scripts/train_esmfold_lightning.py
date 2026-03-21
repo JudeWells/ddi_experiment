@@ -64,6 +64,7 @@ PROJECT_DIR = Path("/projects/u6bz/jude/ddi_experiment")
 DATA_DIR = PROJECT_DIR / "training_data" / "esmfold"
 SPLITS_DIR = PROJECT_DIR / "splits"
 OUTPUT_DIR = PROJECT_DIR / "outputs" / "esmfold"
+SAMPLE_DATA_DIR = PROJECT_DIR / "sample_data"
 
 DEFAULT_LINKER = "G" * 25
 
@@ -299,12 +300,32 @@ def collate_fn(batch):
     return padded_batch
 
 
-def load_structure_files(split_type: str, data_type: str = "pdb") -> list:
-    """Load structure file paths for a given split."""
+def load_structure_files(split_type: str, data_type: str = "pdb", use_sample_data: bool = False) -> list:
+    """Load structure file paths for a given split.
+
+    Args:
+        split_type: 'train' or 'val'
+        data_type: 'pdb' or 'ddi'
+        use_sample_data: If True, use sample_data directory for debugging
+    """
     import pandas as pd
 
+    # Use sample data directory if requested
+    if use_sample_data:
+        splits_dir = SAMPLE_DATA_DIR / "splits"
+        pdb_dirs = [
+            SAMPLE_DATA_DIR / "pdb_multimers",
+            SAMPLE_DATA_DIR / "pdb_monomers",
+        ]
+    else:
+        splits_dir = SPLITS_DIR
+        pdb_dirs = [
+            Path("/projects/u6bz/public/jude/pdb_multimers"),
+            Path("/projects/u6bz/public/jude/pdb_monomers"),
+        ]
+
     if data_type == "ddi":
-        pairs_file = SPLITS_DIR / f"ddi_{split_type}_pairs.csv"
+        pairs_file = splits_dir / f"ddi_{split_type}_pairs.csv"
         if pairs_file.exists():
             pairs_df = pd.read_csv(pairs_file)
             files = []
@@ -319,17 +340,14 @@ def load_structure_files(split_type: str, data_type: str = "pdb") -> list:
                     files.append(pdb_file)
             return files
     else:
-        split_file = SPLITS_DIR / f"pdb_{split_type}.txt"
+        split_file = splits_dir / f"pdb_{split_type}.txt"
         files = []
 
         if split_file.exists():
             with open(split_file, "r") as f:
                 pdb_ids = [line.strip() for line in f if line.strip()]
 
-            for pdb_dir in [
-                Path("/projects/u6bz/public/jude/pdb_multimers"),
-                Path("/projects/u6bz/public/jude/pdb_monomers"),
-            ]:
+            for pdb_dir in pdb_dirs:
                 if pdb_dir.exists():
                     for pdb_id in pdb_ids:
                         for suffix in [".pdb", ".cif"]:
@@ -357,6 +375,7 @@ class ESMFoldDataModule(LightningDataModule):
         max_length: int = 1024,
         pdb_weight: float = 1.0,
         ddi_weight: float = 1.0,
+        use_sample_data: bool = False,
     ):
         super().__init__()
         self.experiment = experiment
@@ -366,6 +385,7 @@ class ESMFoldDataModule(LightningDataModule):
         self.max_length = max_length
         self.pdb_weight = pdb_weight
         self.ddi_weight = ddi_weight
+        self.use_sample_data = use_sample_data
 
         self.train_dataset = None
         self.val_dataset = None
@@ -376,12 +396,12 @@ class ESMFoldDataModule(LightningDataModule):
             "max_length": self.max_length,
         }
 
-        pdb_train = load_structure_files("train", "pdb")
-        pdb_val = load_structure_files("val", "pdb")
+        pdb_train = load_structure_files("train", "pdb", use_sample_data=self.use_sample_data)
+        pdb_val = load_structure_files("val", "pdb", use_sample_data=self.use_sample_data)
 
         if self.experiment == "pdb_ddi":
-            ddi_train = load_structure_files("train", "ddi")
-            ddi_val = load_structure_files("val", "ddi")
+            ddi_train = load_structure_files("train", "ddi", use_sample_data=self.use_sample_data)
+            ddi_val = load_structure_files("val", "ddi", use_sample_data=self.use_sample_data)
 
             self.train_dataset = MixedLinkerDataset(
                 pdb_train, ddi_train,
@@ -442,6 +462,9 @@ class ESMFoldLightningModule(LightningModule):
         freeze_esm_trunk: bool = True,
         chunk_size: int = 128,
         grad_clip: float = 0.5,
+        max_steps: int = -1,
+        limit_train_batches: int = -1,
+        gradient_accumulation_steps: int = 1,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -451,6 +474,9 @@ class ESMFoldLightningModule(LightningModule):
         self.warmup_epochs = warmup_epochs
         self.max_epochs = max_epochs
         self.grad_clip = grad_clip
+        self.max_steps = max_steps
+        self.limit_train_batches = limit_train_batches
+        self.gradient_accumulation_steps = gradient_accumulation_steps
 
         # Load ESMFold (lazy import)
         esm_module, _ = _load_esm_module()
@@ -609,11 +635,26 @@ class ESMFoldLightningModule(LightningModule):
             weight_decay=self.weight_decay,
         )
 
+        # Compute training steps without iterating through dataloader
+        # This avoids the slow estimated_stepping_batches calculation
+        if self.max_steps > 0:
+            num_training_steps = self.max_steps
+        elif self.limit_train_batches > 0:
+            # limit_train_batches * max_epochs / gradient_accumulation
+            num_training_steps = int(
+                self.limit_train_batches * self.max_epochs / self.gradient_accumulation_steps
+            )
+        else:
+            # Fallback: estimate based on typical dataset size
+            # This will be refined once training starts
+            num_training_steps = 10000
+            logger.warning(f"Using fallback num_training_steps={num_training_steps}")
+
+        num_warmup_steps = int(num_training_steps * self.warmup_epochs / self.max_epochs)
+        logger.info(f"LR schedule: {num_training_steps} total steps, {num_warmup_steps} warmup")
+
         # Cosine annealing with warmup
         def lr_lambda(current_step):
-            num_training_steps = self.trainer.estimated_stepping_batches
-            num_warmup_steps = int(num_training_steps * self.warmup_epochs / self.max_epochs)
-
             if current_step < num_warmup_steps:
                 return float(current_step) / float(max(1, num_warmup_steps))
 
@@ -720,6 +761,7 @@ def main():
         max_length=data_config.get("max_length", 1024),
         pdb_weight=config.get("pdb_weight", 1.0),
         ddi_weight=config.get("ddi_weight", 1.0),
+        use_sample_data=data_config.get("use_sample_data", False),
     )
 
     # Model
@@ -732,6 +774,9 @@ def main():
         freeze_esm_trunk=model_config.get("freeze_esm_trunk", True),
         chunk_size=model_config.get("chunk_size", 128),
         grad_clip=config.get("grad_clip", 0.5),
+        max_steps=config.get("max_steps", -1),
+        limit_train_batches=config.get("limit_train_batches", -1) if isinstance(config.get("limit_train_batches"), int) else -1,
+        gradient_accumulation_steps=config.get("gradient_accumulation_steps", 1),
     )
 
     # Callbacks
@@ -774,10 +819,14 @@ def main():
         strategy=strategy,
         precision="bf16-mixed",
         max_epochs=config.get("max_epochs", 30),
+        max_steps=config.get("max_steps", -1),  # Use -1 for unlimited
         # gradient_clip_val removed - not compatible with FSDP, handled manually
         accumulate_grad_batches=config.get("gradient_accumulation_steps", 4),
         log_every_n_steps=config.get("log_every_n_steps", 50),
         val_check_interval=config.get("val_check_interval", 500),
+        limit_train_batches=config.get("limit_train_batches", 1.0),  # Can limit for debug
+        limit_val_batches=config.get("limit_val_batches", 1.0),
+        num_sanity_val_steps=0,  # Skip sanity validation for faster startup
         callbacks=callbacks,
         logger=wandb_logger,
         enable_progress_bar=True,

@@ -1,0 +1,68 @@
+# ESMFold Debug Config - Uses sample data (15 PDBs)
+# For rapid iteration on training pipeline
+
+experiment: esmfold_debug
+description: "Debug config with sample data for fast iteration"
+
+# Data settings - use sample data
+data:
+  max_length: 1024
+  crop_size: 512
+  date_cutoff: "2021-09-30"
+  # Use sample data paths
+  use_sample_data: true
+
+# Linker configuration
+linker:
+  sequence: "GGGGGGGGGGGGGGGGGGGGGGGGG"  # 25 glycines
+  use_chain_break_token: true
+
+# Model settings
+model:
+  freeze_esm_trunk: true
+  chunk_size: 128
+
+# Training settings - minimal for debugging
+batch_size: 1
+effective_batch_size: 4
+gradient_accumulation_steps: 4
+
+learning_rate: 1.0e-5
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5
+
+max_epochs: 2
+warmup_epochs: 1
+early_stopping_patience: 5
+
+# Mixed precision
+use_amp: true
+precision: bf16
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading - fewer workers for small data
+num_workers: 2
+pin_memory: true
+
+# Logging - frequent for debugging
+log_every_n_steps: 1
+val_check_interval: 1.0  # Check every epoch (use float for fraction of epoch)
+save_every_n_epochs: 1
+
+# Debug settings - train on all sample data
+limit_train_batches: 12  # 12 train samples
+limit_val_batches: 3     # 3 val samples
+max_steps: 20            # Just a few steps for debug
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - esmfold
+    - debug
+    - sample-data

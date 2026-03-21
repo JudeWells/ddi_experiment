@@ -1,0 +1,936 @@
+data_1ITT
+# 
+_entry.id   1ITT 
+# 
+_audit_conform.dict_name       mmcif_pdbx.dic 
+_audit_conform.dict_version    5.389 
+_audit_conform.dict_location   http://mmcif.pdb.org/dictionaries/ascii/mmcif_pdbx.dic 
+# 
+loop_
+_database_2.database_id 
+_database_2.database_code 
+_database_2.pdbx_database_accession 
+_database_2.pdbx_DOI 
+PDB   1ITT         pdb_00001itt 10.2210/pdb1itt/pdb 
+RCSB  RCSB005266   ?            ?                   
+WWPDB D_1000005266 ?            ?                   
+# 
+loop_
+_pdbx_audit_revision_history.ordinal 
+_pdbx_audit_revision_history.data_content_type 
+_pdbx_audit_revision_history.major_revision 
+_pdbx_audit_revision_history.minor_revision 
+_pdbx_audit_revision_history.revision_date 
+1 'Structure model' 1 0 2003-02-03 
+2 'Structure model' 1 1 2008-04-27 
+3 'Structure model' 1 2 2011-07-13 
+4 'Structure model' 1 3 2013-12-25 
+5 'Structure model' 1 4 2023-12-27 
+6 'Structure model' 1 5 2024-04-03 
+# 
+_pdbx_audit_revision_details.ordinal             1 
+_pdbx_audit_revision_details.revision_ordinal    1 
+_pdbx_audit_revision_details.data_content_type   'Structure model' 
+_pdbx_audit_revision_details.provider            repository 
+_pdbx_audit_revision_details.type                'Initial release' 
+_pdbx_audit_revision_details.description         ? 
+_pdbx_audit_revision_details.details             ? 
+# 
+loop_
+_pdbx_audit_revision_group.ordinal 
+_pdbx_audit_revision_group.revision_ordinal 
+_pdbx_audit_revision_group.data_content_type 
+_pdbx_audit_revision_group.group 
+1 2 'Structure model' 'Version format compliance' 
+2 3 'Structure model' 'Version format compliance' 
+3 4 'Structure model' 'Derived calculations'      
+4 5 'Structure model' 'Data collection'           
+5 5 'Structure model' 'Database references'       
+6 6 'Structure model' 'Refinement description'    
+# 
+loop_
+_pdbx_audit_revision_category.ordinal 
+_pdbx_audit_revision_category.revision_ordinal 
+_pdbx_audit_revision_category.data_content_type 
+_pdbx_audit_revision_category.category 
+1 5 'Structure model' chem_comp_atom                
+2 5 'Structure model' chem_comp_bond                
+3 5 'Structure model' database_2                    
+4 6 'Structure model' pdbx_initial_refinement_model 
+# 
+loop_
+_pdbx_audit_revision_item.ordinal 
+_pdbx_audit_revision_item.revision_ordinal 
+_pdbx_audit_revision_item.data_content_type 
+_pdbx_audit_revision_item.item 
+1 5 'Structure model' '_database_2.pdbx_DOI'                
+2 5 'Structure model' '_database_2.pdbx_database_accession' 
+# 
+_pdbx_database_status.status_code                     REL 
+_pdbx_database_status.entry_id                        1ITT 
+_pdbx_database_status.recvd_initial_deposition_date   2002-02-03 
+_pdbx_database_status.deposit_site                    PDBJ 
+_pdbx_database_status.process_site                    PDBJ 
+_pdbx_database_status.SG_entry                        . 
+_pdbx_database_status.status_code_sf                  ? 
+_pdbx_database_status.status_code_mr                  ? 
+_pdbx_database_status.status_code_cs                  ? 
+_pdbx_database_status.methods_development_category    ? 
+_pdbx_database_status.pdb_format_compatible           Y 
+_pdbx_database_status.status_code_nmr_data            ? 
+# 
+loop_
+_audit_author.name 
+_audit_author.pdbx_ordinal 
+'Hongo, C.'     1 
+'Nagarajan, V.' 2 
+'Noguchi, K.'   3 
+'Kamitori, S.'  4 
+'Okuyama, K.'   5 
+'Tanaka, Y.'    6 
+'Nishino, N.'   7 
+# 
+_citation.id                        primary 
+_citation.title                     'Average Crystal Structure of (Pro-Pro-Gly)9 at 1.0 angstroms Resolution' 
+_citation.journal_abbrev            Plym.J. 
+_citation.journal_volume            33 
+_citation.page_first                812 
+_citation.page_last                 818 
+_citation.year                      2001 
+_citation.journal_id_ASTM           ? 
+_citation.country                   JA 
+_citation.journal_id_ISSN           0032-3896 
+_citation.journal_id_CSD            ? 
+_citation.book_publisher            ? 
+_citation.pdbx_database_id_PubMed   -1 
+_citation.pdbx_database_id_DOI      10.1295/polymj.33.812 
+# 
+loop_
+_citation_author.citation_id 
+_citation_author.name 
+_citation_author.ordinal 
+_citation_author.identifier_ORCID 
+primary 'Hongo, C.'     1 ? 
+primary 'Nagarajan, V.' 2 ? 
+primary 'Noguchi, K.'   3 ? 
+primary 'Kamitori, S.'  4 ? 
+primary 'Okuyama, K.'   5 ? 
+primary 'Tanaka, Y.'    6 ? 
+primary 'Nishino, N.'   7 ? 
+# 
+loop_
+_entity.id 
+_entity.type 
+_entity.src_method 
+_entity.pdbx_description 
+_entity.formula_weight 
+_entity.pdbx_number_of_molecules 
+_entity.pdbx_ec 
+_entity.pdbx_mutation 
+_entity.pdbx_fragment 
+_entity.details 
+1 polymer syn 'COLLAGEN TRIPLE HELIX' 577.630 1  ? ? ? ? 
+2 polymer syn 'COLLAGEN TRIPLE HELIX' 617.693 1  ? ? ? ? 
+3 polymer syn 'COLLAGEN TRIPLE HELIX' 617.693 1  ? ? ? ? 
+4 water   nat water                   18.015  34 ? ? ? ? 
+# 
+loop_
+_entity_poly.entity_id 
+_entity_poly.type 
+_entity_poly.nstd_linkage 
+_entity_poly.nstd_monomer 
+_entity_poly.pdbx_seq_one_letter_code 
+_entity_poly.pdbx_seq_one_letter_code_can 
+_entity_poly.pdbx_strand_id 
+_entity_poly.pdbx_target_identifier 
+1 'polypeptide(L)' no no GPPGPPG GPPGPPG A ? 
+2 'polypeptide(L)' no no PGPPGPP PGPPGPP B ? 
+3 'polypeptide(L)' no no PPGPPGP PPGPPGP C ? 
+# 
+_pdbx_entity_nonpoly.entity_id   4 
+_pdbx_entity_nonpoly.name        water 
+_pdbx_entity_nonpoly.comp_id     HOH 
+# 
+loop_
+_entity_poly_seq.entity_id 
+_entity_poly_seq.num 
+_entity_poly_seq.mon_id 
+_entity_poly_seq.hetero 
+1 1 GLY n 
+1 2 PRO n 
+1 3 PRO n 
+1 4 GLY n 
+1 5 PRO n 
+1 6 PRO n 
+1 7 GLY n 
+2 1 PRO n 
+2 2 GLY n 
+2 3 PRO n 
+2 4 PRO n 
+2 5 GLY n 
+2 6 PRO n 
+2 7 PRO n 
+3 1 PRO n 
+3 2 PRO n 
+3 3 GLY n 
+3 4 PRO n 
+3 5 PRO n 
+3 6 GLY n 
+3 7 PRO n 
+# 
+loop_
+_pdbx_entity_src_syn.entity_id 
+_pdbx_entity_src_syn.pdbx_src_id 
+_pdbx_entity_src_syn.pdbx_alt_source_flag 
+_pdbx_entity_src_syn.pdbx_beg_seq_num 
+_pdbx_entity_src_syn.pdbx_end_seq_num 
+_pdbx_entity_src_syn.organism_scientific 
+_pdbx_entity_src_syn.organism_common_name 
+_pdbx_entity_src_syn.ncbi_taxonomy_id 
+_pdbx_entity_src_syn.details 
+1 1 sample ? ? ? ? ? 'The peptide was chemically synthesized. The sequence of the peptide is naturally found in collagens.' 
+2 1 sample ? ? ? ? ? 'The peptide was chemically synthesized. The sequence of the peptide is naturally found in collagens.' 
+3 1 sample ? ? ? ? ? 'The peptide was chemically synthesized. The sequence of the peptide is naturally found in collagens.' 
+# 
+loop_
+_chem_comp.id 
+_chem_comp.type 
+_chem_comp.mon_nstd_flag 
+_chem_comp.name 
+_chem_comp.pdbx_synonyms 
+_chem_comp.formula 
+_chem_comp.formula_weight 
+GLY 'peptide linking'   y GLYCINE ? 'C2 H5 N O2' 75.067  
+HOH non-polymer         . WATER   ? 'H2 O'       18.015  
+PRO 'L-peptide linking' y PROLINE ? 'C5 H9 N O2' 115.130 
+# 
+loop_
+_pdbx_poly_seq_scheme.asym_id 
+_pdbx_poly_seq_scheme.entity_id 
+_pdbx_poly_seq_scheme.seq_id 
+_pdbx_poly_seq_scheme.mon_id 
+_pdbx_poly_seq_scheme.ndb_seq_num 
+_pdbx_poly_seq_scheme.pdb_seq_num 
+_pdbx_poly_seq_scheme.auth_seq_num 
+_pdbx_poly_seq_scheme.pdb_mon_id 
+_pdbx_poly_seq_scheme.auth_mon_id 
+_pdbx_poly_seq_scheme.pdb_strand_id 
+_pdbx_poly_seq_scheme.pdb_ins_code 
+_pdbx_poly_seq_scheme.hetero 
+A 1 1 GLY 1 1 1 GLY GLY A . n 
+A 1 2 PRO 2 2 2 PRO PRO A . n 
+A 1 3 PRO 3 3 3 PRO PRO A . n 
+A 1 4 GLY 4 4 4 GLY GLY A . n 
+A 1 5 PRO 5 5 5 PRO PRO A . n 
+A 1 6 PRO 6 6 6 PRO PRO A . n 
+A 1 7 GLY 7 7 7 GLY GLY A . n 
+B 2 1 PRO 1 1 1 PRO PRO B . n 
+B 2 2 GLY 2 2 2 GLY GLY B . n 
+B 2 3 PRO 3 3 3 PRO PRO B . n 
+B 2 4 PRO 4 4 4 PRO PRO B . n 
+B 2 5 GLY 5 5 5 GLY GLY B . n 
+B 2 6 PRO 6 6 6 PRO PRO B . n 
+B 2 7 PRO 7 7 7 PRO PRO B . n 
+C 3 1 PRO 1 1 1 PRO PRO C . n 
+C 3 2 PRO 2 2 2 PRO PRO C . n 
+C 3 3 GLY 3 3 3 GLY GLY C . n 
+C 3 4 PRO 4 4 4 PRO PRO C . n 
+C 3 5 PRO 5 5 5 PRO PRO C . n 
+C 3 6 GLY 6 6 6 GLY GLY C . n 
+C 3 7 PRO 7 7 7 PRO PRO C . n 
+# 
+loop_
+_pdbx_nonpoly_scheme.asym_id 
+_pdbx_nonpoly_scheme.entity_id 
+_pdbx_nonpoly_scheme.mon_id 
+_pdbx_nonpoly_scheme.ndb_seq_num 
+_pdbx_nonpoly_scheme.pdb_seq_num 
+_pdbx_nonpoly_scheme.auth_seq_num 
+_pdbx_nonpoly_scheme.pdb_mon_id 
+_pdbx_nonpoly_scheme.auth_mon_id 
+_pdbx_nonpoly_scheme.pdb_strand_id 
+_pdbx_nonpoly_scheme.pdb_ins_code 
+D 4 HOH 1  405 405 HOH HOH A . 
+D 4 HOH 2  406 406 HOH HOH A . 
+D 4 HOH 3  407 407 HOH HOH A . 
+D 4 HOH 4  413 413 HOH HOH A . 
+D 4 HOH 5  414 414 HOH HOH A . 
+D 4 HOH 6  415 415 HOH HOH A . 
+D 4 HOH 7  422 422 HOH HOH A . 
+D 4 HOH 8  428 428 HOH HOH A . 
+D 4 HOH 9  429 429 HOH HOH A . 
+D 4 HOH 10 434 434 HOH HOH A . 
+E 4 HOH 1  401 401 HOH HOH B . 
+E 4 HOH 2  402 402 HOH HOH B . 
+E 4 HOH 3  408 408 HOH HOH B . 
+E 4 HOH 4  409 409 HOH HOH B . 
+E 4 HOH 5  410 410 HOH HOH B . 
+E 4 HOH 6  416 416 HOH HOH B . 
+E 4 HOH 7  417 417 HOH HOH B . 
+E 4 HOH 8  419 419 HOH HOH B . 
+E 4 HOH 9  421 421 HOH HOH B . 
+E 4 HOH 10 423 423 HOH HOH B . 
+E 4 HOH 11 424 424 HOH HOH B . 
+E 4 HOH 12 425 425 HOH HOH B . 
+E 4 HOH 13 427 427 HOH HOH B . 
+E 4 HOH 14 430 430 HOH HOH B . 
+E 4 HOH 15 431 431 HOH HOH B . 
+F 4 HOH 1  403 403 HOH HOH C . 
+F 4 HOH 2  404 404 HOH HOH C . 
+F 4 HOH 3  411 411 HOH HOH C . 
+F 4 HOH 4  412 412 HOH HOH C . 
+F 4 HOH 5  418 418 HOH HOH C . 
+F 4 HOH 6  420 420 HOH HOH C . 
+F 4 HOH 7  426 426 HOH HOH C . 
+F 4 HOH 8  432 432 HOH HOH C . 
+F 4 HOH 9  433 433 HOH HOH C . 
+# 
+loop_
+_software.name 
+_software.classification 
+_software.version 
+_software.citation_id 
+_software.pdbx_ordinal 
+TEXSAN    'data collection' . ? 1 
+teXsan    'data reduction'  . ? 2 
+X-PLOR    'model building'  . ? 3 
+SHELXL-97 refinement        . ? 4 
+TEXSAN    'data scaling'    . ? 5 
+X-PLOR    phasing           . ? 6 
+# 
+_cell.entry_id           1ITT 
+_cell.length_a           26.821 
+_cell.length_b           26.333 
+_cell.length_c           20.246 
+_cell.angle_alpha        90.00 
+_cell.angle_beta         90.00 
+_cell.angle_gamma        90.00 
+_cell.Z_PDB              4 
+_cell.pdbx_unique_axis   ? 
+_cell.length_a_esd       ? 
+_cell.length_b_esd       ? 
+_cell.length_c_esd       ? 
+_cell.angle_alpha_esd    ? 
+_cell.angle_beta_esd     ? 
+_cell.angle_gamma_esd    ? 
+# 
+_symmetry.entry_id                         1ITT 
+_symmetry.space_group_name_H-M             'P 21 21 21' 
+_symmetry.pdbx_full_space_group_name_H-M   ? 
+_symmetry.cell_setting                     ? 
+_symmetry.Int_Tables_number                19 
+_symmetry.space_group_name_Hall            ? 
+# 
+_exptl.entry_id          1ITT 
+_exptl.method            'X-RAY DIFFRACTION' 
+_exptl.crystals_number   1 
+# 
+_exptl_crystal.id                    1 
+_exptl_crystal.density_meas          ? 
+_exptl_crystal.density_percent_sol   37.13 
+_exptl_crystal.density_Matthews      1.96 
+_exptl_crystal.description           ? 
+_exptl_crystal.F_000                 ? 
+_exptl_crystal.preparation           ? 
+# 
+_exptl_crystal_grow.crystal_id      1 
+_exptl_crystal_grow.method          'VAPOR DIFFUSION, HANGING DROP' 
+_exptl_crystal_grow.temp            283 
+_exptl_crystal_grow.temp_details    ? 
+_exptl_crystal_grow.pH              ? 
+_exptl_crystal_grow.pdbx_details    'PEG400, acetic acid, sodium azide, VAPOR DIFFUSION, HANGING DROP, temperature 283K' 
+_exptl_crystal_grow.pdbx_pH_range   . 
+# 
+_diffrn.id                     1 
+_diffrn.ambient_temp           293.0 
+_diffrn.ambient_temp_details   ? 
+_diffrn.crystal_id             1 
+# 
+_diffrn_detector.diffrn_id              1 
+_diffrn_detector.detector               DIFFRACTOMETER 
+_diffrn_detector.type                   'RIGAKU AFC-5R' 
+_diffrn_detector.pdbx_collection_date   1999-05-18 
+_diffrn_detector.details                ? 
+# 
+_diffrn_radiation.diffrn_id                        1 
+_diffrn_radiation.wavelength_id                    1 
+_diffrn_radiation.pdbx_monochromatic_or_laue_m_l   M 
+_diffrn_radiation.monochromator                    GRAPHITE 
+_diffrn_radiation.pdbx_diffrn_protocol             'SINGLE WAVELENGTH' 
+_diffrn_radiation.pdbx_scattering_type             x-ray 
+# 
+_diffrn_radiation_wavelength.id           1 
+_diffrn_radiation_wavelength.wavelength   1.5418 
+_diffrn_radiation_wavelength.wt           1.0 
+# 
+_diffrn_source.diffrn_id                   1 
+_diffrn_source.source                      'ROTATING ANODE' 
+_diffrn_source.type                        'RIGAKU RU200' 
+_diffrn_source.pdbx_synchrotron_site       ? 
+_diffrn_source.pdbx_synchrotron_beamline   ? 
+_diffrn_source.pdbx_wavelength             ? 
+_diffrn_source.pdbx_wavelength_list        1.5418 
+# 
+_reflns.entry_id                     1ITT 
+_reflns.observed_criterion_sigma_I   ? 
+_reflns.observed_criterion_sigma_F   1.0 
+_reflns.d_resolution_low             8.0 
+_reflns.d_resolution_high            1.0 
+_reflns.number_obs                   2922 
+_reflns.number_all                   6129 
+_reflns.percent_possible_obs         ? 
+_reflns.pdbx_Rmerge_I_obs            ? 
+_reflns.pdbx_Rsym_value              ? 
+_reflns.pdbx_netI_over_sigmaI        ? 
+_reflns.B_iso_Wilson_estimate        ? 
+_reflns.pdbx_redundancy              ? 
+_reflns.R_free_details               ? 
+_reflns.limit_h_max                  ? 
+_reflns.limit_h_min                  ? 
+_reflns.limit_k_max                  ? 
+_reflns.limit_k_min                  ? 
+_reflns.limit_l_max                  ? 
+_reflns.limit_l_min                  ? 
+_reflns.observed_criterion_F_max     ? 
+_reflns.observed_criterion_F_min     ? 
+_reflns.pdbx_chi_squared             ? 
+_reflns.pdbx_scaling_rejects         ? 
+_reflns.pdbx_ordinal                 1 
+_reflns.pdbx_diffrn_id               1 
+# 
+_refine.entry_id                                 1ITT 
+_refine.ls_number_reflns_obs                     2922 
+_refine.ls_number_reflns_all                     2922 
+_refine.pdbx_ls_sigma_I                          ? 
+_refine.pdbx_ls_sigma_F                          1.0 
+_refine.pdbx_data_cutoff_high_absF               ? 
+_refine.pdbx_data_cutoff_low_absF                ? 
+_refine.ls_d_res_low                             8.0 
+_refine.ls_d_res_high                            1.0 
+_refine.ls_percent_reflns_obs                    ? 
+_refine.ls_R_factor_obs                          ? 
+_refine.ls_R_factor_all                          ? 
+_refine.ls_R_factor_R_work                       0.222 
+_refine.ls_R_factor_R_free                       0.294 
+_refine.ls_R_factor_R_free_error                 ? 
+_refine.ls_R_factor_R_free_error_details         ? 
+_refine.ls_percent_reflns_R_free                 ? 
+_refine.ls_number_reflns_R_free                  292 
+_refine.ls_number_parameters                     ? 
+_refine.ls_number_restraints                     ? 
+_refine.occupancy_min                            ? 
+_refine.occupancy_max                            ? 
+_refine.B_iso_mean                               ? 
+_refine.aniso_B[1][1]                            ? 
+_refine.aniso_B[2][2]                            ? 
+_refine.aniso_B[3][3]                            ? 
+_refine.aniso_B[1][2]                            ? 
+_refine.aniso_B[1][3]                            ? 
+_refine.aniso_B[2][3]                            ? 
+_refine.solvent_model_details                    ? 
+_refine.solvent_model_param_ksol                 ? 
+_refine.solvent_model_param_bsol                 ? 
+_refine.pdbx_ls_cross_valid_method               ? 
+_refine.details                                  ? 
+_refine.pdbx_starting_model                      'The structural model for collagen proposed by Okuyama (1981)' 
+_refine.pdbx_method_to_determine_struct          'MOLECULAR REPLACEMENT' 
+_refine.pdbx_isotropic_thermal_model             ? 
+_refine.pdbx_stereochemistry_target_values       'Engh & Huber' 
+_refine.pdbx_stereochem_target_val_spec_case     ? 
+_refine.pdbx_R_Free_selection_details            random 
+_refine.pdbx_overall_ESU_R_Free                  ? 
+_refine.overall_SU_B                             ? 
+_refine.ls_redundancy_reflns_obs                 ? 
+_refine.B_iso_min                                ? 
+_refine.B_iso_max                                ? 
+_refine.correlation_coeff_Fo_to_Fc               ? 
+_refine.overall_SU_R_Cruickshank_DPI             ? 
+_refine.overall_SU_R_free                        ? 
+_refine.overall_SU_ML                            ? 
+_refine.pdbx_overall_ESU_R                       ? 
+_refine.pdbx_data_cutoff_high_rms_absF           ? 
+_refine.correlation_coeff_Fo_to_Fc_free          ? 
+_refine.pdbx_solvent_vdw_probe_radii             ? 
+_refine.pdbx_solvent_ion_probe_radii             ? 
+_refine.pdbx_solvent_shrinkage_radii             ? 
+_refine.pdbx_refine_id                           'X-RAY DIFFRACTION' 
+_refine.pdbx_overall_phase_error                 ? 
+_refine.ls_wR_factor_R_free                      ? 
+_refine.ls_wR_factor_R_work                      ? 
+_refine.overall_FOM_free_R_set                   ? 
+_refine.overall_FOM_work_R_set                   ? 
+_refine.pdbx_diffrn_id                           1 
+_refine.pdbx_TLS_residual_ADP_flag               ? 
+_refine.pdbx_overall_SU_R_free_Cruickshank_DPI   ? 
+_refine.pdbx_overall_SU_R_Blow_DPI               ? 
+_refine.pdbx_overall_SU_R_free_Blow_DPI          ? 
+# 
+_refine_hist.pdbx_refine_id                   'X-RAY DIFFRACTION' 
+_refine_hist.cycle_id                         LAST 
+_refine_hist.pdbx_number_atoms_protein        126 
+_refine_hist.pdbx_number_atoms_nucleic_acid   0 
+_refine_hist.pdbx_number_atoms_ligand         0 
+_refine_hist.number_atoms_solvent             34 
+_refine_hist.number_atoms_total               160 
+_refine_hist.d_res_high                       1.0 
+_refine_hist.d_res_low                        8.0 
+# 
+loop_
+_refine_ls_restr.type 
+_refine_ls_restr.dev_ideal 
+_refine_ls_restr.dev_ideal_target 
+_refine_ls_restr.weight 
+_refine_ls_restr.number 
+_refine_ls_restr.pdbx_refine_id 
+_refine_ls_restr.pdbx_restraint_function 
+s_bond_d  0.007 ? ? ? 'X-RAY DIFFRACTION' ? 
+s_angle_d 0.020 ? ? ? 'X-RAY DIFFRACTION' ? 
+# 
+_pdbx_refine.entry_id                                    1ITT 
+_pdbx_refine.R_factor_all_no_cutoff                      ? 
+_pdbx_refine.R_factor_obs_no_cutoff                      0.222 
+_pdbx_refine.free_R_factor_no_cutoff                     0.294 
+_pdbx_refine.free_R_val_test_set_size_perc_no_cutoff     10 
+_pdbx_refine.free_R_val_test_set_ct_no_cutoff            292 
+_pdbx_refine.R_factor_all_4sig_cutoff                    ? 
+_pdbx_refine.R_factor_obs_4sig_cutoff                    0.19 
+_pdbx_refine.free_R_factor_4sig_cutoff                   0.269 
+_pdbx_refine.free_R_val_test_set_size_perc_4sig_cutoff   ? 
+_pdbx_refine.free_R_val_test_set_ct_4sig_cutoff          221 
+_pdbx_refine.number_reflns_obs_4sig_cutoff               2165 
+_pdbx_refine.number_reflns_obs_no_cutoff                 ? 
+_pdbx_refine.pdbx_refine_id                              'X-RAY DIFFRACTION' 
+_pdbx_refine.free_R_error_no_cutoff                      ? 
+# 
+_database_PDB_matrix.entry_id          1ITT 
+_database_PDB_matrix.origx[1][1]       1.000000 
+_database_PDB_matrix.origx[1][2]       0.000000 
+_database_PDB_matrix.origx[1][3]       0.000000 
+_database_PDB_matrix.origx[2][1]       0.000000 
+_database_PDB_matrix.origx[2][2]       1.000000 
+_database_PDB_matrix.origx[2][3]       0.000000 
+_database_PDB_matrix.origx[3][1]       0.000000 
+_database_PDB_matrix.origx[3][2]       0.000000 
+_database_PDB_matrix.origx[3][3]       1.000000 
+_database_PDB_matrix.origx_vector[1]   0.000000 
+_database_PDB_matrix.origx_vector[2]   0.000000 
+_database_PDB_matrix.origx_vector[3]   0.000000 
+# 
+_struct.entry_id                  1ITT 
+_struct.title                     'Average Crystal Structure of (Pro-Pro-Gly)9 at 1.0 angstroms Resolution' 
+_struct.pdbx_model_details        ? 
+_struct.pdbx_CASP_flag            ? 
+_struct.pdbx_model_type_details   ? 
+# 
+_struct_keywords.entry_id        1ITT 
+_struct_keywords.pdbx_keywords   'STRUCTURAL PROTEIN' 
+_struct_keywords.text            'collagen, triple helix, Pro-Pro-Gly, single crystal, STRUCTURAL PROTEIN' 
+# 
+loop_
+_struct_asym.id 
+_struct_asym.pdbx_blank_PDB_chainid_flag 
+_struct_asym.pdbx_modified 
+_struct_asym.entity_id 
+_struct_asym.details 
+A N N 1 ? 
+B N N 2 ? 
+C N N 3 ? 
+D N N 4 ? 
+E N N 4 ? 
+F N N 4 ? 
+# 
+loop_
+_struct_ref.id 
+_struct_ref.entity_id 
+_struct_ref.db_name 
+_struct_ref.db_code 
+_struct_ref.pdbx_db_accession 
+_struct_ref.pdbx_align_begin 
+_struct_ref.pdbx_seq_one_letter_code 
+_struct_ref.pdbx_db_isoform 
+1 1 PDB 1ITT 1ITT ? ? ? 
+2 2 PDB 1ITT 1ITT ? ? ? 
+3 3 PDB 1ITT 1ITT ? ? ? 
+# 
+loop_
+_struct_ref_seq.align_id 
+_struct_ref_seq.ref_id 
+_struct_ref_seq.pdbx_PDB_id_code 
+_struct_ref_seq.pdbx_strand_id 
+_struct_ref_seq.seq_align_beg 
+_struct_ref_seq.pdbx_seq_align_beg_ins_code 
+_struct_ref_seq.seq_align_end 
+_struct_ref_seq.pdbx_seq_align_end_ins_code 
+_struct_ref_seq.pdbx_db_accession 
+_struct_ref_seq.db_align_beg 
+_struct_ref_seq.pdbx_db_align_beg_ins_code 
+_struct_ref_seq.db_align_end 
+_struct_ref_seq.pdbx_db_align_end_ins_code 
+_struct_ref_seq.pdbx_auth_seq_align_beg 
+_struct_ref_seq.pdbx_auth_seq_align_end 
+1 1 1ITT A 1 ? 7 ? 1ITT 1 ? 7 ? 1 7 
+2 2 1ITT B 1 ? 7 ? 1ITT 1 ? 7 ? 1 7 
+3 3 1ITT C 1 ? 7 ? 1ITT 1 ? 7 ? 1 7 
+# 
+_pdbx_struct_assembly.id                   1 
+_pdbx_struct_assembly.details              author_and_software_defined_assembly 
+_pdbx_struct_assembly.method_details       PISA 
+_pdbx_struct_assembly.oligomeric_details   trimeric 
+_pdbx_struct_assembly.oligomeric_count     3 
+# 
+loop_
+_pdbx_struct_assembly_prop.biol_id 
+_pdbx_struct_assembly_prop.type 
+_pdbx_struct_assembly_prop.value 
+_pdbx_struct_assembly_prop.details 
+1 'ABSA (A^2)' 1120 ? 
+1 MORE         -7   ? 
+1 'SSA (A^2)'  1440 ? 
+# 
+_pdbx_struct_assembly_gen.assembly_id       1 
+_pdbx_struct_assembly_gen.oper_expression   1 
+_pdbx_struct_assembly_gen.asym_id_list      A,B,C,D,E,F 
+# 
+_pdbx_struct_oper_list.id                   1 
+_pdbx_struct_oper_list.type                 'identity operation' 
+_pdbx_struct_oper_list.name                 1_555 
+_pdbx_struct_oper_list.symmetry_operation   x,y,z 
+_pdbx_struct_oper_list.matrix[1][1]         1.0000000000 
+_pdbx_struct_oper_list.matrix[1][2]         0.0000000000 
+_pdbx_struct_oper_list.matrix[1][3]         0.0000000000 
+_pdbx_struct_oper_list.vector[1]            0.0000000000 
+_pdbx_struct_oper_list.matrix[2][1]         0.0000000000 
+_pdbx_struct_oper_list.matrix[2][2]         1.0000000000 
+_pdbx_struct_oper_list.matrix[2][3]         0.0000000000 
+_pdbx_struct_oper_list.vector[2]            0.0000000000 
+_pdbx_struct_oper_list.matrix[3][1]         0.0000000000 
+_pdbx_struct_oper_list.matrix[3][2]         0.0000000000 
+_pdbx_struct_oper_list.matrix[3][3]         1.0000000000 
+_pdbx_struct_oper_list.vector[3]            0.0000000000 
+# 
+_struct_biol.id                    1 
+_struct_biol.pdbx_parent_biol_id   ? 
+_struct_biol.details               
+;THE ENTIRE 27 RESIDUE LONG PEPTIDE CAN BE GENERATED FROM 
+THE SUBMITTED ASYMMETRIC UNIT BY APPLYING THE FOLLOWING 
+TRANSLATIONS (USING FRACTIONAL COORDINATES): 
+
+CHAIN A: TRANSLATE RESIDUES 2 - 7 BY (0 0 1), 
+         AND RESIDUES 1-7 BY (002), (003), (004) 
+         AND RESIDUE 1 BY (005). 
+CHAIN B: TRANSLATE RESIDUES 33-37 BY (0 0 1), 
+         AND RESIDUES 31-37 BY (002), (003), (004) 
+         AND RESIDUE 31-32 BY (005). 
+CHAIN C: TRANSLATE RESIDUES 64-67 BY (0 0 1), 
+         AND RESIDUES 61-67 BY (002), (003), (004). 
+THIS WILL RESULT IN A MOLECULE WITH A TOTAL OF 81 RESIDUES, 
+         27 IN EACH CHAIN.
+;
+# 
+loop_
+_pdbx_validate_symm_contact.id 
+_pdbx_validate_symm_contact.PDB_model_num 
+_pdbx_validate_symm_contact.auth_atom_id_1 
+_pdbx_validate_symm_contact.auth_asym_id_1 
+_pdbx_validate_symm_contact.auth_comp_id_1 
+_pdbx_validate_symm_contact.auth_seq_id_1 
+_pdbx_validate_symm_contact.PDB_ins_code_1 
+_pdbx_validate_symm_contact.label_alt_id_1 
+_pdbx_validate_symm_contact.site_symmetry_1 
+_pdbx_validate_symm_contact.auth_atom_id_2 
+_pdbx_validate_symm_contact.auth_asym_id_2 
+_pdbx_validate_symm_contact.auth_comp_id_2 
+_pdbx_validate_symm_contact.auth_seq_id_2 
+_pdbx_validate_symm_contact.PDB_ins_code_2 
+_pdbx_validate_symm_contact.label_alt_id_2 
+_pdbx_validate_symm_contact.site_symmetry_2 
+_pdbx_validate_symm_contact.dist 
+1 1 N B PRO 1 ? ? 1_555 C C PRO 7 ? ? 1_554 1.33 
+2 1 C A GLY 7 ? ? 1_555 N C PRO 1 ? ? 1_556 1.33 
+3 1 N A GLY 1 ? ? 1_555 C B PRO 7 ? ? 1_554 1.33 
+# 
+loop_
+_chem_comp_atom.comp_id 
+_chem_comp_atom.atom_id 
+_chem_comp_atom.type_symbol 
+_chem_comp_atom.pdbx_aromatic_flag 
+_chem_comp_atom.pdbx_stereo_config 
+_chem_comp_atom.pdbx_ordinal 
+GLY N   N N N 1  
+GLY CA  C N N 2  
+GLY C   C N N 3  
+GLY O   O N N 4  
+GLY OXT O N N 5  
+GLY H   H N N 6  
+GLY H2  H N N 7  
+GLY HA2 H N N 8  
+GLY HA3 H N N 9  
+GLY HXT H N N 10 
+HOH O   O N N 11 
+HOH H1  H N N 12 
+HOH H2  H N N 13 
+PRO N   N N N 14 
+PRO CA  C N S 15 
+PRO C   C N N 16 
+PRO O   O N N 17 
+PRO CB  C N N 18 
+PRO CG  C N N 19 
+PRO CD  C N N 20 
+PRO OXT O N N 21 
+PRO H   H N N 22 
+PRO HA  H N N 23 
+PRO HB2 H N N 24 
+PRO HB3 H N N 25 
+PRO HG2 H N N 26 
+PRO HG3 H N N 27 
+PRO HD2 H N N 28 
+PRO HD3 H N N 29 
+PRO HXT H N N 30 
+# 
+loop_
+_chem_comp_bond.comp_id 
+_chem_comp_bond.atom_id_1 
+_chem_comp_bond.atom_id_2 
+_chem_comp_bond.value_order 
+_chem_comp_bond.pdbx_aromatic_flag 
+_chem_comp_bond.pdbx_stereo_config 
+_chem_comp_bond.pdbx_ordinal 
+GLY N   CA  sing N N 1  
+GLY N   H   sing N N 2  
+GLY N   H2  sing N N 3  
+GLY CA  C   sing N N 4  
+GLY CA  HA2 sing N N 5  
+GLY CA  HA3 sing N N 6  
+GLY C   O   doub N N 7  
+GLY C   OXT sing N N 8  
+GLY OXT HXT sing N N 9  
+HOH O   H1  sing N N 10 
+HOH O   H2  sing N N 11 
+PRO N   CA  sing N N 12 
+PRO N   CD  sing N N 13 
+PRO N   H   sing N N 14 
+PRO CA  C   sing N N 15 
+PRO CA  CB  sing N N 16 
+PRO CA  HA  sing N N 17 
+PRO C   O   doub N N 18 
+PRO C   OXT sing N N 19 
+PRO CB  CG  sing N N 20 
+PRO CB  HB2 sing N N 21 
+PRO CB  HB3 sing N N 22 
+PRO CG  CD  sing N N 23 
+PRO CG  HG2 sing N N 24 
+PRO CG  HG3 sing N N 25 
+PRO CD  HD2 sing N N 26 
+PRO CD  HD3 sing N N 27 
+PRO OXT HXT sing N N 28 
+# 
+_pdbx_initial_refinement_model.accession_code   ? 
+_pdbx_initial_refinement_model.id               1 
+_pdbx_initial_refinement_model.entity_id_list   ? 
+_pdbx_initial_refinement_model.type             'experimental model' 
+_pdbx_initial_refinement_model.source_name      Other 
+_pdbx_initial_refinement_model.details          'The structural model for collagen proposed by Okuyama (1981)' 
+# 
+_atom_sites.entry_id                    1ITT 
+_atom_sites.fract_transf_matrix[1][1]   0.037284 
+_atom_sites.fract_transf_matrix[1][2]   0.000000 
+_atom_sites.fract_transf_matrix[1][3]   0.000000 
+_atom_sites.fract_transf_matrix[2][1]   0.000000 
+_atom_sites.fract_transf_matrix[2][2]   0.037975 
+_atom_sites.fract_transf_matrix[2][3]   0.000000 
+_atom_sites.fract_transf_matrix[3][1]   0.000000 
+_atom_sites.fract_transf_matrix[3][2]   0.000000 
+_atom_sites.fract_transf_matrix[3][3]   0.049392 
+_atom_sites.fract_transf_vector[1]      0.000000 
+_atom_sites.fract_transf_vector[2]      0.000000 
+_atom_sites.fract_transf_vector[3]      0.000000 
+# 
+loop_
+_atom_type.symbol 
+C 
+N 
+O 
+# 
+loop_
+_atom_site.group_PDB 
+_atom_site.id 
+_atom_site.type_symbol 
+_atom_site.label_atom_id 
+_atom_site.label_alt_id 
+_atom_site.label_comp_id 
+_atom_site.label_asym_id 
+_atom_site.label_entity_id 
+_atom_site.label_seq_id 
+_atom_site.pdbx_PDB_ins_code 
+_atom_site.Cartn_x 
+_atom_site.Cartn_y 
+_atom_site.Cartn_z 
+_atom_site.occupancy 
+_atom_site.B_iso_or_equiv 
+_atom_site.pdbx_formal_charge 
+_atom_site.auth_seq_id 
+_atom_site.auth_comp_id 
+_atom_site.auth_asym_id 
+_atom_site.auth_atom_id 
+_atom_site.pdbx_PDB_model_num 
+ATOM   1   N N  . GLY A 1 1 ? 0.633  9.075  -9.829  1.00 9.16  ? 1   GLY A N  1 
+ATOM   2   C CA . GLY A 1 1 ? 0.124  7.924  -9.088  1.00 10.14 ? 1   GLY A CA 1 
+ATOM   3   C C  . GLY A 1 1 ? -0.728 8.306  -7.888  1.00 10.50 ? 1   GLY A C  1 
+ATOM   4   O O  . GLY A 1 1 ? -0.901 9.482  -7.557  1.00 11.44 ? 1   GLY A O  1 
+ATOM   5   N N  . PRO A 1 2 ? -1.227 7.245  -7.262  1.00 12.90 ? 2   PRO A N  1 
+ATOM   6   C CA . PRO A 1 2 ? -2.085 7.358  -6.087  1.00 14.03 ? 2   PRO A CA 1 
+ATOM   7   C C  . PRO A 1 2 ? -1.304 7.804  -4.856  1.00 13.84 ? 2   PRO A C  1 
+ATOM   8   O O  . PRO A 1 2 ? -0.065 7.680  -4.812  1.00 14.05 ? 2   PRO A O  1 
+ATOM   9   C CB . PRO A 1 2 ? -2.588 5.922  -5.891  1.00 13.78 ? 2   PRO A CB 1 
+ATOM   10  C CG . PRO A 1 2 ? -1.606 5.046  -6.584  1.00 13.83 ? 2   PRO A CG 1 
+ATOM   11  C CD . PRO A 1 2 ? -0.953 5.860  -7.668  1.00 13.45 ? 2   PRO A CD 1 
+ATOM   12  N N  . PRO A 1 3 ? -1.960 8.315  -3.822  1.00 12.76 ? 3   PRO A N  1 
+ATOM   13  C CA . PRO A 1 3 ? -1.231 8.708  -2.608  1.00 12.05 ? 3   PRO A CA 1 
+ATOM   14  C C  . PRO A 1 3 ? -0.572 7.510  -1.935  1.00 9.64  ? 3   PRO A C  1 
+ATOM   15  O O  . PRO A 1 3 ? -1.013 6.367  -2.103  1.00 11.60 ? 3   PRO A O  1 
+ATOM   16  C CB . PRO A 1 3 ? -2.305 9.287  -1.697  1.00 16.34 ? 3   PRO A CB 1 
+ATOM   17  C CG . PRO A 1 3 ? -3.622 9.036  -2.326  1.00 16.23 ? 3   PRO A CG 1 
+ATOM   18  C CD . PRO A 1 3 ? -3.406 8.562  -3.721  1.00 14.85 ? 3   PRO A CD 1 
+ATOM   19  N N  . GLY A 1 4 ? 0.484  7.761  -1.171  1.00 9.63  ? 4   GLY A N  1 
+ATOM   20  C CA . GLY A 1 4 ? 1.171  6.711  -0.425  1.00 11.85 ? 4   GLY A CA 1 
+ATOM   21  C C  . GLY A 1 4 ? 0.361  6.282  0.791   1.00 11.39 ? 4   GLY A C  1 
+ATOM   22  O O  . GLY A 1 4 ? -0.678 6.865  1.093   1.00 8.32  ? 4   GLY A O  1 
+ATOM   23  N N  . PRO A 1 5 ? 0.753  5.265  1.557   1.00 12.53 ? 5   PRO A N  1 
+ATOM   24  C CA . PRO A 1 5 ? -0.067 4.857  2.702   1.00 11.39 ? 5   PRO A CA 1 
+ATOM   25  C C  . PRO A 1 5 ? 0.230  5.702  3.925   1.00 8.05  ? 5   PRO A C  1 
+ATOM   26  O O  . PRO A 1 5 ? 1.193  6.475  3.968   1.00 10.39 ? 5   PRO A O  1 
+ATOM   27  C CB . PRO A 1 5 ? 0.389  3.423  2.989   1.00 14.16 ? 5   PRO A CB 1 
+ATOM   28  C CG . PRO A 1 5 ? 1.808  3.405  2.542   1.00 12.37 ? 5   PRO A CG 1 
+ATOM   29  C CD . PRO A 1 5 ? 1.952  4.426  1.452   1.00 12.70 ? 5   PRO A CD 1 
+ATOM   30  N N  . PRO A 1 6 ? -0.607 5.540  4.934   1.00 10.77 ? 6   PRO A N  1 
+ATOM   31  C CA . PRO A 1 6 ? -0.395 6.270  6.183   1.00 11.41 ? 6   PRO A CA 1 
+ATOM   32  C C  . PRO A 1 6 ? 0.950  5.935  6.831   1.00 11.47 ? 6   PRO A C  1 
+ATOM   33  O O  . PRO A 1 6 ? 1.493  4.839  6.702   1.00 10.01 ? 6   PRO A O  1 
+ATOM   34  C CB . PRO A 1 6 ? -1.519 5.762  7.091   1.00 14.01 ? 6   PRO A CB 1 
+ATOM   35  C CG . PRO A 1 6 ? -2.579 5.337  6.116   1.00 15.50 ? 6   PRO A CG 1 
+ATOM   36  C CD . PRO A 1 6 ? -1.803 4.670  4.993   1.00 13.72 ? 6   PRO A CD 1 
+ATOM   37  N N  . GLY A 1 7 ? 1.476  6.914  7.546   1.00 8.96  ? 7   GLY A N  1 
+ATOM   38  C CA . GLY A 1 7 ? 2.711  6.724  8.285   1.00 5.71  ? 7   GLY A CA 1 
+ATOM   39  C C  . GLY A 1 7 ? 2.553  5.868  9.512   1.00 11.98 ? 7   GLY A C  1 
+ATOM   40  O O  . GLY A 1 7 ? 1.467  5.437  9.891   1.00 11.53 ? 7   GLY A O  1 
+ATOM   41  N N  . PRO B 2 1 ? 5.308  9.891  -9.441  1.00 10.15 ? 1   PRO B N  1 
+ATOM   42  C CA . PRO B 2 1 ? 4.772  9.300  -8.219  1.00 9.16  ? 1   PRO B CA 1 
+ATOM   43  C C  . PRO B 2 1 ? 3.699  10.175 -7.586  1.00 8.81  ? 1   PRO B C  1 
+ATOM   44  O O  . PRO B 2 1 ? 3.648  11.387 -7.744  1.00 10.93 ? 1   PRO B O  1 
+ATOM   45  C CB . PRO B 2 1 ? 5.978  9.259  -7.281  1.00 13.83 ? 1   PRO B CB 1 
+ATOM   46  C CG . PRO B 2 1 ? 7.163  9.244  -8.201  1.00 16.06 ? 1   PRO B CG 1 
+ATOM   47  C CD . PRO B 2 1 ? 6.760  10.144 -9.348  1.00 14.46 ? 1   PRO B CD 1 
+ATOM   48  N N  . GLY B 2 2 ? 2.795  9.545  -6.832  1.00 9.33  ? 2   GLY B N  1 
+ATOM   49  C CA . GLY B 2 2 ? 1.757  10.300 -6.153  1.00 9.78  ? 2   GLY B CA 1 
+ATOM   50  C C  . GLY B 2 2 ? 2.274  11.004 -4.909  1.00 9.21  ? 2   GLY B C  1 
+ATOM   51  O O  . GLY B 2 2 ? 3.439  10.891 -4.532  1.00 9.74  ? 2   GLY B O  1 
+ATOM   52  N N  . PRO B 2 3 ? 1.397  11.734 -4.232  1.00 10.12 ? 3   PRO B N  1 
+ATOM   53  C CA . PRO B 2 3 ? 1.747  12.500 -3.046  1.00 11.65 ? 3   PRO B CA 1 
+ATOM   54  C C  . PRO B 2 3 ? 1.973  11.584 -1.847  1.00 9.78  ? 3   PRO B C  1 
+ATOM   55  O O  . PRO B 2 3 ? 1.549  10.440 -1.849  1.00 8.27  ? 3   PRO B O  1 
+ATOM   56  C CB . PRO B 2 3 ? 0.513  13.370 -2.777  1.00 12.61 ? 3   PRO B CB 1 
+ATOM   57  C CG . PRO B 2 3 ? -0.600 12.684 -3.490  1.00 14.37 ? 3   PRO B CG 1 
+ATOM   58  C CD . PRO B 2 3 ? -0.024 11.852 -4.599  1.00 9.86  ? 3   PRO B CD 1 
+ATOM   59  N N  . PRO B 2 4 ? 2.648  12.083 -0.840  1.00 10.79 ? 4   PRO B N  1 
+ATOM   60  C CA . PRO B 2 4 ? 2.876  11.299 0.367   1.00 10.34 ? 4   PRO B CA 1 
+ATOM   61  C C  . PRO B 2 4 ? 1.547  10.952 1.016   1.00 8.96  ? 4   PRO B C  1 
+ATOM   62  O O  . PRO B 2 4 ? 0.555  11.690 0.888   1.00 10.71 ? 4   PRO B O  1 
+ATOM   63  C CB . PRO B 2 4 ? 3.640  12.253 1.294   1.00 12.99 ? 4   PRO B CB 1 
+ATOM   64  C CG . PRO B 2 4 ? 4.186  13.314 0.398   1.00 16.27 ? 4   PRO B CG 1 
+ATOM   65  C CD . PRO B 2 4 ? 3.245  13.428 -0.769  1.00 13.22 ? 4   PRO B CD 1 
+ATOM   66  N N  . GLY B 2 5 ? 1.535  9.820  1.731   1.00 6.05  ? 5   GLY B N  1 
+ATOM   67  C CA . GLY B 2 5 ? 0.384  9.461  2.535   1.00 7.57  ? 5   GLY B CA 1 
+ATOM   68  C C  . GLY B 2 5 ? 0.186  10.378 3.743   1.00 9.11  ? 5   GLY B C  1 
+ATOM   69  O O  . GLY B 2 5 ? 1.006  11.247 4.058   1.00 11.04 ? 5   GLY B O  1 
+ATOM   70  N N  . PRO B 2 6 ? -0.909 10.205 4.487   1.00 9.17  ? 6   PRO B N  1 
+ATOM   71  C CA . PRO B 2 6 ? -1.209 11.037 5.645   1.00 9.52  ? 6   PRO B CA 1 
+ATOM   72  C C  . PRO B 2 6 ? -0.402 10.630 6.858   1.00 11.21 ? 6   PRO B C  1 
+ATOM   73  O O  . PRO B 2 6 ? 0.141  9.525  6.911   1.00 9.28  ? 6   PRO B O  1 
+ATOM   74  C CB . PRO B 2 6 ? -2.695 10.731 5.906   1.00 15.27 ? 6   PRO B CB 1 
+ATOM   75  C CG . PRO B 2 6 ? -2.851 9.318  5.448   1.00 14.21 ? 6   PRO B CG 1 
+ATOM   76  C CD . PRO B 2 6 ? -1.922 9.155  4.267   1.00 13.37 ? 6   PRO B CD 1 
+ATOM   77  N N  . PRO B 2 7 ? -0.289 11.472 7.865   1.00 13.93 ? 7   PRO B N  1 
+ATOM   78  C CA . PRO B 2 7 ? 0.391  11.106 9.110   1.00 14.14 ? 7   PRO B CA 1 
+ATOM   79  C C  . PRO B 2 7 ? -0.206 9.848  9.727   1.00 13.58 ? 7   PRO B C  1 
+ATOM   80  O O  . PRO B 2 7 ? -1.399 9.549  9.590   1.00 13.02 ? 7   PRO B O  1 
+ATOM   81  C CB . PRO B 2 7 ? 0.137  12.331 10.008  1.00 16.33 ? 7   PRO B CB 1 
+ATOM   82  C CG . PRO B 2 7 ? -0.073 13.443 9.027   1.00 15.15 ? 7   PRO B CG 1 
+ATOM   83  C CD . PRO B 2 7 ? -0.786 12.857 7.841   1.00 14.39 ? 7   PRO B CD 1 
+ATOM   84  N N  . PRO C 3 1 ? 3.678  5.613  -10.066 1.00 11.95 ? 1   PRO C N  1 
+ATOM   85  C CA . PRO C 3 1 ? 3.689  4.771  -8.872  1.00 12.38 ? 1   PRO C CA 1 
+ATOM   86  C C  . PRO C 3 1 ? 3.107  5.462  -7.658  1.00 11.21 ? 1   PRO C C  1 
+ATOM   87  O O  . PRO C 3 1 ? 3.057  6.699  -7.655  1.00 9.21  ? 1   PRO C O  1 
+ATOM   88  C CB . PRO C 3 1 ? 5.201  4.538  -8.670  1.00 13.88 ? 1   PRO C CB 1 
+ATOM   89  C CG . PRO C 3 1 ? 5.866  5.707  -9.305  1.00 14.81 ? 1   PRO C CG 1 
+ATOM   90  C CD . PRO C 3 1 ? 4.986  6.143  -10.439 1.00 15.58 ? 1   PRO C CD 1 
+ATOM   91  N N  . PRO C 3 2 ? 2.687  4.750  -6.626  1.00 12.60 ? 2   PRO C N  1 
+ATOM   92  C CA . PRO C 3 2 ? 2.161  5.347  -5.405  1.00 10.43 ? 2   PRO C CA 1 
+ATOM   93  C C  . PRO C 3 2 ? 3.203  6.245  -4.737  1.00 9.76  ? 2   PRO C C  1 
+ATOM   94  O O  . PRO C 3 2 ? 4.407  6.044  -4.896  1.00 10.76 ? 2   PRO C O  1 
+ATOM   95  C CB . PRO C 3 2 ? 1.921  4.149  -4.472  1.00 16.69 ? 2   PRO C CB 1 
+ATOM   96  C CG . PRO C 3 2 ? 1.822  2.963  -5.377  1.00 18.54 ? 2   PRO C CG 1 
+ATOM   97  C CD . PRO C 3 2 ? 2.707  3.272  -6.555  1.00 17.58 ? 2   PRO C CD 1 
+ATOM   98  N N  . GLY C 3 3 ? 2.713  7.226  -3.985  1.00 8.74  ? 3   GLY C N  1 
+ATOM   99  C CA . GLY C 3 3 ? 3.660  8.108  -3.290  1.00 9.62  ? 3   GLY C CA 1 
+ATOM   100 C C  . GLY C 3 3 ? 4.245  7.421  -2.069  1.00 10.97 ? 3   GLY C C  1 
+ATOM   101 O O  . GLY C 3 3 ? 3.905  6.281  -1.723  1.00 12.33 ? 3   GLY C O  1 
+ATOM   102 N N  . PRO C 3 4 ? 5.138  8.125  -1.370  1.00 9.99  ? 4   PRO C N  1 
+ATOM   103 C CA . PRO C 3 4 ? 5.782  7.564  -0.185  1.00 9.67  ? 4   PRO C CA 1 
+ATOM   104 C C  . PRO C 3 4 ? 4.877  7.505  1.037   1.00 10.83 ? 4   PRO C C  1 
+ATOM   105 O O  . PRO C 3 4 ? 3.868  8.220  1.035   1.00 8.12  ? 4   PRO C O  1 
+ATOM   106 C CB . PRO C 3 4 ? 6.875  8.617  0.075   1.00 13.92 ? 4   PRO C CB 1 
+ATOM   107 C CG . PRO C 3 4 ? 6.233  9.900  -0.389  1.00 13.01 ? 4   PRO C CG 1 
+ATOM   108 C CD . PRO C 3 4 ? 5.528  9.514  -1.666  1.00 10.97 ? 4   PRO C CD 1 
+ATOM   109 N N  . PRO C 3 5 ? 5.188  6.752  2.087   1.00 13.21 ? 5   PRO C N  1 
+ATOM   110 C CA . PRO C 3 5 ? 4.397  6.757  3.322   1.00 9.74  ? 5   PRO C CA 1 
+ATOM   111 C C  . PRO C 3 5 ? 4.444  8.130  3.980   1.00 10.60 ? 5   PRO C C  1 
+ATOM   112 O O  . PRO C 3 5 ? 5.366  8.932  3.831   1.00 11.31 ? 5   PRO C O  1 
+ATOM   113 C CB . PRO C 3 5 ? 5.082  5.762  4.265   1.00 15.11 ? 5   PRO C CB 1 
+ATOM   114 C CG . PRO C 3 5 ? 6.030  4.994  3.406   1.00 17.89 ? 5   PRO C CG 1 
+ATOM   115 C CD . PRO C 3 5 ? 6.347  5.851  2.210   1.00 13.80 ? 5   PRO C CD 1 
+ATOM   116 N N  . GLY C 3 6 ? 3.399  8.393  4.753   1.00 11.42 ? 6   GLY C N  1 
+ATOM   117 C CA . GLY C 3 6 ? 3.299  9.661  5.461   1.00 9.21  ? 6   GLY C CA 1 
+ATOM   118 C C  . GLY C 3 6 ? 4.206  9.624  6.667   1.00 8.07  ? 6   GLY C C  1 
+ATOM   119 O O  . GLY C 3 6 ? 4.796  8.615  7.014   1.00 11.68 ? 6   GLY C O  1 
+ATOM   120 N N  . PRO C 3 7 ? 4.318  10.735 7.384   1.00 9.60  ? 7   PRO C N  1 
+ATOM   121 C CA . PRO C 3 7 ? 5.180  10.808 8.561   1.00 9.58  ? 7   PRO C CA 1 
+ATOM   122 C C  . PRO C 3 7 ? 4.536  10.143 9.756   1.00 10.61 ? 7   PRO C C  1 
+ATOM   123 O O  . PRO C 3 7 ? 3.332  9.864  9.733   1.00 9.54  ? 7   PRO C O  1 
+ATOM   124 C CB . PRO C 3 7 ? 5.278  12.333 8.772   1.00 12.09 ? 7   PRO C CB 1 
+ATOM   125 C CG . PRO C 3 7 ? 3.981  12.861 8.283   1.00 12.64 ? 7   PRO C CG 1 
+ATOM   126 C CD . PRO C 3 7 ? 3.584  11.989 7.129   1.00 11.38 ? 7   PRO C CD 1 
+HETATM 127 O O  . HOH D 4 . ? -0.536 3.641  -1.109  1.00 17.21 ? 405 HOH A O  1 
+HETATM 128 O O  . HOH D 4 . ? -3.702 5.424  -1.662  1.00 30.73 ? 406 HOH A O  1 
+HETATM 129 O O  . HOH D 4 . ? -3.415 6.202  1.217   1.00 21.88 ? 407 HOH A O  1 
+HETATM 130 O O  . HOH D 4 . ? 3.581  3.445  7.330   1.00 29.29 ? 413 HOH A O  1 
+HETATM 131 O O  . HOH D 4 . ? 0.629  2.178  6.679   1.00 31.01 ? 414 HOH A O  1 
+HETATM 132 O O  . HOH D 4 . ? -0.240 3.394  10.221  1.00 26.21 ? 415 HOH A O  1 
+HETATM 133 O O  . HOH D 4 . ? -3.070 3.133  1.002   1.00 28.96 ? 422 HOH A O  1 
+HETATM 134 O O  . HOH D 4 . ? 2.860  0.135  6.147   1.00 48.13 ? 428 HOH A O  1 
+HETATM 135 O O  . HOH D 4 . ? -2.907 4.118  10.178  1.00 26.78 ? 429 HOH A O  1 
+HETATM 136 O O  . HOH D 4 . ? 4.444  0.480  3.193   1.00 41.58 ? 434 HOH A O  1 
+HETATM 137 O O  . HOH E 4 . ? 5.597  13.613 -8.002  1.00 22.22 ? 401 HOH B O  1 
+HETATM 138 O O  . HOH E 4 . ? 5.808  12.101 -3.854  1.00 25.45 ? 402 HOH B O  1 
+HETATM 139 O O  . HOH E 4 . ? -1.982 12.072 1.555   1.00 19.19 ? 408 HOH B O  1 
+HETATM 140 O O  . HOH E 4 . ? 0.449  14.432 1.077   1.00 28.27 ? 409 HOH B O  1 
+HETATM 141 O O  . HOH E 4 . ? 1.335  13.933 4.739   1.00 18.12 ? 410 HOH B O  1 
+HETATM 142 O O  . HOH E 4 . ? -3.852 11.103 9.970   1.00 47.54 ? 416 HOH B O  1 
+HETATM 143 O O  . HOH E 4 . ? 2.137  13.608 -7.134  1.00 20.55 ? 417 HOH B O  1 
+HETATM 144 O O  . HOH E 4 . ? 8.204  10.100 -4.175  1.00 16.75 ? 419 HOH B O  1 
+HETATM 145 O O  . HOH E 4 . ? 3.700  15.334 -8.742  1.00 33.50 ? 421 HOH B O  1 
+HETATM 146 O O  . HOH E 4 . ? -4.978 10.693 1.343   1.00 48.82 ? 423 HOH B O  1 
+HETATM 147 O O  . HOH E 4 . ? -2.932 14.189 -0.465  1.00 23.14 ? 424 HOH B O  1 
+HETATM 148 O O  . HOH E 4 . ? 4.248  14.563 4.277   1.00 25.14 ? 425 HOH B O  1 
+HETATM 149 O O  . HOH E 4 . ? -3.657 7.144  9.815   1.00 35.15 ? 427 HOH B O  1 
+HETATM 150 O O  . HOH E 4 . ? 3.549  15.405 -4.970  1.00 42.32 ? 430 HOH B O  1 
+HETATM 151 O O  . HOH E 4 . ? 2.807  15.583 2.199   1.00 24.68 ? 431 HOH B O  1 
+HETATM 152 O O  . HOH F 4 . ? 7.333  7.096  -4.573  1.00 38.75 ? 403 HOH C O  1 
+HETATM 153 O O  . HOH F 4 . ? 4.812  3.855  -1.418  1.00 34.16 ? 404 HOH C O  1 
+HETATM 154 O O  . HOH F 4 . ? 8.038  8.396  4.052   1.00 19.51 ? 411 HOH C O  1 
+HETATM 155 O O  . HOH F 4 . ? 7.480  7.470  6.966   1.00 21.59 ? 412 HOH C O  1 
+HETATM 156 O O  . HOH F 4 . ? 6.112  11.973 4.110   1.00 28.03 ? 418 HOH C O  1 
+HETATM 157 O O  . HOH F 4 . ? 3.869  1.354  -0.727  1.00 35.78 ? 420 HOH C O  1 
+HETATM 158 O O  . HOH F 4 . ? 8.784  9.852  8.083   1.00 18.03 ? 426 HOH C O  1 
+HETATM 159 O O  . HOH F 4 . ? 8.170  4.513  -2.709  1.00 35.50 ? 432 HOH C O  1 
+HETATM 160 O O  . HOH F 4 . ? 7.981  5.534  -7.203  1.00 37.00 ? 433 HOH C O  1 
+# 
