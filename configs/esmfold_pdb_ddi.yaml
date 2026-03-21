@@ -1,0 +1,76 @@
+# ESMFold Linker Trick - PDB + DDI
+# Fine-tune pretrained ESMFold on PDB + AFDB DDI pseudo-multimers
+# Uses linker trick to enable multimer prediction
+
+experiment: esmfold_pdb_ddi
+description: "Fine-tune ESMFold with linker trick on PDB + DDI data"
+
+# This experiment tests if DDI pseudo-multimers help:
+# - Same setup as pdb_only but with additional DDI training data
+# - DDI pairs are combined with linker to create pseudo-multimers
+
+# Data settings
+data:
+  max_length: 1024
+  crop_size: 128  # Reduced for memory (fp32 ESMFold forward)
+  date_cutoff: "2021-09-30"
+  plddt_threshold: 70  # Only high-confidence DDI predictions
+
+# Sampling weights
+# Balance PDB and DDI data
+pdb_weight: 1.0
+ddi_weight: 1.0  # Equal weighting (can adjust based on dataset sizes)
+
+# Linker configuration
+linker:
+  sequence: "GGGGGGGGGGGGGGGGGGGGGGGGG"  # 25 glycines
+  use_chain_break_token: true
+
+# Model settings
+model:
+  freeze_esm_trunk: true
+  chunk_size: 128
+
+# Training settings
+batch_size: 1
+effective_batch_size: 4
+gradient_accumulation_steps: 4
+
+learning_rate: 1.0e-5
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5
+
+max_epochs: 30
+warmup_epochs: 2
+early_stopping_patience: 5
+
+# Mixed precision
+use_amp: true
+precision: bf16
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# Logging
+log_every_n_steps: 50
+val_check_interval: 500
+save_every_n_epochs: 2
+
+# Track data source for analysis
+track_data_source: true
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - esmfold
+    - linker-trick
+    - pdb-ddi
+    - fine-tune

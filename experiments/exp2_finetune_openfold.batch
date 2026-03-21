@@ -1,0 +1,57 @@
+#!/bin/bash
+#SBATCH --job-name=ddi_exp2b_of
+#SBATCH --nodes=1
+#SBATCH --gpus-per-node=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --time=48:00:00
+#SBATCH --output=/projects/u6bz/jude/ddi_experiment/logs/exp2_finetune_openfold_%j.out
+#SBATCH --error=/projects/u6bz/jude/ddi_experiment/logs/exp2_finetune_openfold_%j.err
+
+# Experiment 2B: Fine-tuning - OpenFold SoloSeq
+# Fine-tune DDI-pretrained model on PDB multimers
+
+set -e
+
+SEED=${1:-42}
+PROJECT_DIR="/projects/u6bz/jude/ddi_experiment"
+CONFIG="${PROJECT_DIR}/configs/finetune.yaml"
+
+# Find the pretrained model
+PRETRAIN_DIR="${PROJECT_DIR}/outputs/openfold"
+PRETRAINED_MODEL=$(find ${PRETRAIN_DIR} -name "best_model.pt" -path "*ddi_pretrain_seed${SEED}*" | head -1)
+
+if [ -z "${PRETRAINED_MODEL}" ]; then
+    echo "ERROR: Pretrained model not found for seed ${SEED}"
+    echo "Please run exp2_ddi_pretrain_openfold.batch first"
+    exit 1
+fi
+
+echo "=========================================="
+echo "Experiment 2B: Fine-tuning - OpenFold"
+echo "Seed: ${SEED}"
+echo "Pretrained: ${PRETRAINED_MODEL}"
+echo "Start time: $(date)"
+echo "=========================================="
+
+module load conda 2>/dev/null || true
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate ddi_experiment
+
+export MASTER_ADDR=$(hostname)
+export MASTER_PORT=29504
+export WORLD_SIZE=4
+
+torchrun \
+    --nproc_per_node=4 \
+    --master_addr=${MASTER_ADDR} \
+    --master_port=${MASTER_PORT} \
+    ${PROJECT_DIR}/scripts/train_openfold_soloSeq.py \
+    --config ${CONFIG} \
+    --experiment finetune \
+    --seed ${SEED} \
+    --pretrained ${PRETRAINED_MODEL}
+
+echo "=========================================="
+echo "Experiment completed at: $(date)"
+echo "=========================================="

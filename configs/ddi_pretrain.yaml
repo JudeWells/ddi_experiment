@@ -1,0 +1,62 @@
+# DDI Pre-training Configuration
+# Pre-train on DDI pairs (pLDDT > 70)
+
+experiment: ddi_pretrain
+description: "Pre-training on high-confidence DDI pairs"
+
+# Data settings
+data:
+  max_length: 512
+  crop_size: 256
+  plddt_threshold: 70
+
+# DDI-specific settings
+ddi:
+  source_dir: "/projects/u6bz/public/erik/AFDDI_data/AFDB_DDI"
+  processed_dir: "/projects/u6bz/public/jude/processed_ddi"
+  plddt_filter: 70
+
+# Model settings
+model:
+  embed_dim: 256
+  num_layers: 12
+  num_heads: 8
+
+# Training settings - higher learning rate for pre-training
+batch_size: 1
+effective_batch_size: 16
+gradient_accumulation_steps: 16
+
+learning_rate: 3.0e-4  # Higher LR for pre-training
+min_learning_rate: 1.0e-6
+weight_decay: 0.01
+grad_clip: 1.0
+
+max_epochs: 50  # Fewer epochs, larger dataset
+warmup_epochs: 3
+early_stopping_patience: 5
+
+# Mixed precision
+use_amp: true
+precision: bf16
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 8  # More workers for larger dataset
+pin_memory: true
+
+# Logging
+log_every_n_steps: 500
+val_check_interval: 5000
+save_every_n_epochs: 2
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - ddi-pretrain
+    - phase-a

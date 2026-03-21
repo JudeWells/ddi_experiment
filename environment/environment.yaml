@@ -1,0 +1,59 @@
+# Conda environment specification for DDI Experiment
+name: ddi_experiment
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.11
+  - pip
+  - cudatoolkit=12.1
+  - mmseqs2
+
+  # Scientific computing
+  - numpy
+  - scipy
+  - pandas
+  - scikit-learn
+
+  # Visualization
+  - matplotlib
+  - seaborn
+
+  # Bioinformatics
+  - biopython
+  - biotite
+
+  - pip:
+    # PyTorch (CUDA 12.1)
+    - torch
+    - torchvision
+    - torchaudio
+
+    # AtomWorks for RFAA
+    - atomworks[ml]
+
+    # ML utilities
+    - pytorch-lightning
+    - wandb
+    - tensorboard
+    - hydra-core
+    - omegaconf
+    - ml-collections
+    - einops
+    - dm-tree
+
+    # ESM for embeddings
+    - fair-esm
+
+    # Structure prediction metrics
+    - tmtools
+    - dockq
+
+    # Utilities
+    - tqdm
+    - pyyaml
+    - requests

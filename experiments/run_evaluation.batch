@@ -1,0 +1,54 @@
+#!/bin/bash
+#SBATCH --job-name=ddi_eval
+#SBATCH --nodes=1
+#SBATCH --gpus-per-node=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=16
+#SBATCH --time=24:00:00
+#SBATCH --output=/projects/u6bz/jude/ddi_experiment/logs/evaluation_%j.out
+#SBATCH --error=/projects/u6bz/jude/ddi_experiment/logs/evaluation_%j.err
+
+# Evaluate all trained models and aggregate results
+
+set -e
+
+PROJECT_DIR="/projects/u6bz/jude/ddi_experiment"
+
+echo "=========================================="
+echo "DDI Experiment - Evaluation"
+echo "Start time: $(date)"
+echo "=========================================="
+
+module load conda 2>/dev/null || true
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate ddi_experiment
+
+# Create evaluation results directory
+mkdir -p ${PROJECT_DIR}/evaluation_results
+
+# Evaluate all models
+echo "Evaluating trained models..."
+
+for model_dir in ${PROJECT_DIR}/outputs/*/; do
+    for exp_dir in ${model_dir}*/; do
+        if [ -f "${exp_dir}best_model.pt" ]; then
+            echo "Evaluating: ${exp_dir}"
+            python ${PROJECT_DIR}/scripts/evaluate.py \
+                --model-dir "${exp_dir}" \
+                --test-set both \
+                --output-dir ${PROJECT_DIR}/evaluation_results
+        fi
+    done
+done
+
+# Aggregate results
+echo "Aggregating results..."
+python ${PROJECT_DIR}/scripts/aggregate_results.py \
+    --results-dir ${PROJECT_DIR}/evaluation_results \
+    --output-dir ${PROJECT_DIR}/analysis \
+    --create-plots
+
+echo "=========================================="
+echo "Evaluation completed at: $(date)"
+echo "Results saved to: ${PROJECT_DIR}/analysis"
+echo "=========================================="

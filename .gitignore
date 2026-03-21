@@ -1,0 +1,7 @@
+core
+logs/
+outputs/
+repos/
+training_data/
+splits/
+wandb/

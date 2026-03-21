@@ -1,0 +1,64 @@
+# Fine-tuning Configuration
+# Fine-tune DDI-pretrained model on PDB multimers
+
+experiment: finetune
+description: "Fine-tune DDI-pretrained model on PDB multimers"
+
+# Data settings
+data:
+  max_length: 512
+  crop_size: 256
+  date_cutoff: "2021-09-30"
+
+# Model settings
+model:
+  embed_dim: 256
+  num_layers: 12
+  num_heads: 8
+
+# Training settings - lower learning rate for fine-tuning
+batch_size: 1
+effective_batch_size: 8
+gradient_accumulation_steps: 8
+
+learning_rate: 1.0e-5  # Lower LR for fine-tuning
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5  # Tighter gradient clipping
+
+max_epochs: 50
+warmup_epochs: 2
+early_stopping_patience: 10
+
+# Layer-wise learning rate decay (optional)
+layer_lr_decay: 0.9  # Each layer gets 0.9x the learning rate of the layer above
+
+# Mixed precision
+use_amp: true
+precision: bf16
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# Freeze early layers (optional)
+freeze_embeddings: false
+freeze_layers: 0  # Number of initial layers to freeze
+
+# Logging
+log_every_n_steps: 100
+val_check_interval: 1000
+save_every_n_epochs: 5
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - finetune
+    - phase-b
+    - ddi-to-pdb
