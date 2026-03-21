@@ -13,7 +13,7 @@ description: "Fine-tune ESMFold with linker trick on PDB data only"
 # Data settings
 data:
   max_length: 1024
-  crop_size: 128  # Reduced for memory (fp32 ESMFold forward)
+  crop_size: 512  # Full size with FSDP + bf16
   date_cutoff: "2021-09-30"
 
 # Linker configuration

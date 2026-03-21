@@ -1,0 +1,70 @@
+#!/bin/bash
+#SBATCH --job-name=ddi_esm_multi
+#SBATCH --nodes=2
+#SBATCH --gpus-per-node=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --time=48:00:00
+#SBATCH --output=/projects/u6bz/jude/ddi_experiment/logs/esmfold_multi_%j.out
+#SBATCH --error=/projects/u6bz/jude/ddi_experiment/logs/esmfold_multi_%j.err
+
+# ESMFold Multi-Node Training
+# - Model parallelism via FSDP (4 GPUs per node)
+# - Data parallelism across nodes (different samples per node)
+# - Total: 8 GPUs across 2 nodes
+
+set -e
+
+EXPERIMENT=${1:-pdb_only}
+SEED=${2:-42}
+NUM_NODES=${SLURM_NNODES:-2}
+GPUS_PER_NODE=4
+
+PROJECT_DIR="/projects/u6bz/jude/ddi_experiment"
+CONFIG="${PROJECT_DIR}/configs/esmfold_${EXPERIMENT}.yaml"
+
+echo "==========================================="
+echo "ESMFold Multi-Node Training"
+echo "Experiment: ${EXPERIMENT}"
+echo "Seed: ${SEED}"
+echo "Nodes: ${NUM_NODES}"
+echo "GPUs per node: ${GPUS_PER_NODE}"
+echo "Total GPUs: $((NUM_NODES * GPUS_PER_NODE))"
+echo "Start time: $(date)"
+echo "==========================================="
+
+# Activate conda environment
+source /lus/lfs1aip2/projects/u6bz/jude/miniforge3/bin/activate ddi_experiment
+
+# CUDA/NCCL settings for multi-node
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=0
+export NCCL_NET_GDR_LEVEL=2
+export NCCL_SOCKET_IFNAME=hsn0  # High-speed network interface
+
+# PyTorch settings
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export OMP_NUM_THREADS=8
+
+# Master address - use first node
+MASTER_ADDR=$(scontrol show hostnames $SLURM_JOB_NODELIST | head -n 1)
+export MASTER_ADDR
+export MASTER_PORT=29500
+
+echo "Master node: ${MASTER_ADDR}:${MASTER_PORT}"
+echo "Node list: $(scontrol show hostnames $SLURM_JOB_NODELIST | tr '\n' ' ')"
+
+# Run with srun for proper multi-node coordination
+srun --ntasks-per-node=${GPUS_PER_NODE} \
+     --cpus-per-task=8 \
+     python ${PROJECT_DIR}/scripts/train_esmfold_lightning.py \
+        --config ${CONFIG} \
+        --experiment ${EXPERIMENT} \
+        --seed ${SEED} \
+        --num_nodes ${NUM_NODES} \
+        --devices ${GPUS_PER_NODE}
+
+echo "==========================================="
+echo "Training completed at: $(date)"
+echo "==========================================="
