@@ -1,0 +1,69 @@
+# ESMFold Multi-GPU Config - DeepSpeed Zero-1 with bf16
+# Validated: DeepSpeed Zero-1 works for multi-GPU training
+
+experiment: esmfold_multigpu
+description: "Multi-GPU training with DeepSpeed Zero-1, crop_size 512, bf16"
+
+# Data settings - use sample data for testing
+data:
+  max_length: 1024
+  crop_size: 512  # Full crop size for proper multimer prediction
+  date_cutoff: "2021-09-30"
+  use_sample_data: true
+
+# Linker configuration
+linker:
+  sequence: "GGGGGGGGGGGGGGGGGGGGGGGGG"
+  use_chain_break_token: true
+
+# Model settings
+model:
+  freeze_esm_trunk: true
+  chunk_size: 64  # Memory-efficient chunking
+
+# Training settings
+batch_size: 1
+effective_batch_size: 8
+gradient_accumulation_steps: 8  # Larger accumulation for effective batch
+
+learning_rate: 1.0e-5
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5
+
+max_epochs: 5
+warmup_epochs: 1
+early_stopping_patience: 10
+
+# Use DeepSpeed Zero-1 (set use_dp: true triggers DeepSpeed in our code)
+use_fsdp: false
+use_dp: true
+precision: bf16  # Use bf16 for memory efficiency
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# Logging
+log_every_n_steps: 1
+val_check_interval: 1.0
+save_every_n_epochs: 1
+
+# Limit batches for testing (set to null for full training)
+limit_train_batches: 10
+limit_val_batches: 5
+max_steps: 20
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - esmfold
+    - multigpu
+    - deepspeed
+    - bf16

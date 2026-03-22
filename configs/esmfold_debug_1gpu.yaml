@@ -1,0 +1,67 @@
+# ESMFold Debug Config - Single GPU with aggressive cropping
+# For isolating multi-GPU hang issues
+
+experiment: esmfold_debug_1gpu
+description: "Single GPU debug with small crop_size"
+
+# Data settings - use sample data
+data:
+  max_length: 512
+  crop_size: 128  # Aggressive cropping for speed
+  date_cutoff: "2021-09-30"
+  use_sample_data: true
+
+# Linker configuration
+linker:
+  sequence: "GGGGGGGGGGGGGGGGGGGGGGGGG"
+  use_chain_break_token: true
+
+# Model settings
+model:
+  freeze_esm_trunk: true
+  chunk_size: 64  # Smaller chunks for memory
+
+# Training settings
+batch_size: 1
+effective_batch_size: 1
+gradient_accumulation_steps: 1
+
+learning_rate: 1.0e-5
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5
+
+max_epochs: 2
+warmup_epochs: 1
+early_stopping_patience: 5
+
+# Mixed precision - use fp32 for single GPU test
+use_amp: false
+precision: 32
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 0  # No workers for debugging
+pin_memory: false
+
+# Logging
+log_every_n_steps: 1
+val_check_interval: 1.0
+save_every_n_epochs: 1
+
+# Debug settings
+limit_train_batches: 5
+limit_val_batches: 2
+max_steps: 10
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - esmfold
+    - debug
+    - single-gpu

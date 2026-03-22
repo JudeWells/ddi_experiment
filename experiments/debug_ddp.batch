@@ -1,0 +1,45 @@
+#!/bin/bash
+#SBATCH --job-name=esm_ds_dbg
+#SBATCH --partition=workq
+#SBATCH --nodes=1
+#SBATCH --gpus-per-node=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=4
+#SBATCH --time=00:20:00
+#SBATCH --output=/projects/u6bz/jude/ddi_experiment/logs/debug_ddp_%j.out
+#SBATCH --error=/projects/u6bz/jude/ddi_experiment/logs/debug_ddp_%j.err
+
+# Multi-GPU DeepSpeed debug (4 processes, 4 GPUs)
+
+echo "==========================================="
+echo "DEBUG: ESMFold DeepSpeed Zero-1 (4 GPUs)"
+echo "Start time: $(date)"
+echo "==========================================="
+
+# Environment
+source /projects/u6bz/jude/miniforge3/etc/profile.d/conda.sh
+conda activate ddi_experiment
+
+# Paths
+SCRIPT_DIR="/projects/u6bz/jude/ddi_experiment/scripts"
+CONFIG="/projects/u6bz/jude/ddi_experiment/configs/esmfold_debug_ddp.yaml"
+
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+export MASTER_ADDR=$(hostname)
+export MASTER_PORT=29500
+
+GPUS_PER_NODE=4
+
+cd ${SCRIPT_DIR}
+
+# Launch with torchrun for DeepSpeed multi-GPU
+torchrun --standalone --nproc_per_node=${GPUS_PER_NODE} train_esmfold_lightning.py \
+    --config ${CONFIG} \
+    --experiment pdb_only \
+    --seed 42 \
+    --num_nodes 1 \
+    --devices ${GPUS_PER_NODE}
+
+echo "==========================================="
+echo "Finished: $(date)"
+echo "==========================================="

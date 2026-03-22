@@ -23,41 +23,50 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 import yaml
 
+# Suppress CUDA stream mismatch warning that can occur with DDP + complex models
+# This warning is often benign but noisy
+try:
+    torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False)
+except AttributeError:
+    pass  # Not available in older PyTorch versions
+
 import pytorch_lightning as pl
 from pytorch_lightning import LightningModule, LightningDataModule, Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import WandbLogger
-from pytorch_lightning.strategies import FSDPStrategy
+from pytorch_lightning.strategies import FSDPStrategy, DDPStrategy, DeepSpeedStrategy
 from torch.distributed.fsdp import MixedPrecision, ShardingStrategy
 from torch.distributed.fsdp.wrap import transformer_auto_wrap_policy
 
-# ESMFold imports are deferred to avoid issues with distributed launch
-ESMFOLD_AVAILABLE = None  # Will be set on first use
-_esm_module = None
-_FoldingTrunkBlock = None
+# HuggingFace ESMFold imports
+ESMFOLD_AVAILABLE = None
+_EsmForProteinFolding = None
+_EsmTokenizer = None
 
 
-def _load_esm_module():
-    """Lazily load ESM module."""
-    global ESMFOLD_AVAILABLE, _esm_module, _FoldingTrunkBlock
+def _load_hf_esmfold():
+    """Lazily load HuggingFace ESMFold."""
+    global ESMFOLD_AVAILABLE, _EsmForProteinFolding, _EsmTokenizer
     if ESMFOLD_AVAILABLE is None:
         try:
-            import esm
-            from esm.esmfold.v1.trunk import TriangularSelfAttentionBlock
-            _esm_module = esm
-            _FoldingTrunkBlock = TriangularSelfAttentionBlock
+            from transformers import EsmForProteinFolding, EsmTokenizer
+            _EsmForProteinFolding = EsmForProteinFolding
+            _EsmTokenizer = EsmTokenizer
             ESMFOLD_AVAILABLE = True
-            logger.info("ESMFold loaded successfully")
+            log_rank0("HuggingFace ESMFold loaded successfully")
         except ImportError as e:
-            logger.warning(f"ESMFold import failed: {e}")
+            log_rank0(f"HuggingFace ESMFold import failed: {e}", "warning")
             ESMFOLD_AVAILABLE = False
-    return _esm_module, _FoldingTrunkBlock
+    return _EsmForProteinFolding, _EsmTokenizer
 
 
 def get_fsdp_wrap_class():
     """Get transformer block class for FSDP wrapping."""
-    _, block_cls = _load_esm_module()
-    return block_cls
+    try:
+        from transformers.models.esm.modeling_esmfold import EsmFoldTriangularSelfAttentionBlock
+        return EsmFoldTriangularSelfAttentionBlock
+    except ImportError:
+        return None
 
 # Configuration
 PROJECT_DIR = Path("/projects/u6bz/jude/ddi_experiment")
@@ -73,6 +82,18 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
+
+
+def is_main_process() -> bool:
+    """Check if this is the main process (rank 0)."""
+    rank = int(os.environ.get("LOCAL_RANK", os.environ.get("RANK", 0)))
+    return rank == 0
+
+
+def log_rank0(msg: str, level: str = "info"):
+    """Log only on rank 0 to avoid duplicate messages."""
+    if is_main_process():
+        getattr(logger, level)(msg)
 
 
 # =============================================================================
@@ -415,13 +436,13 @@ class ESMFoldDataModule(LightningDataModule):
                 ddi_weight=self.ddi_weight,
                 **data_kwargs,
             )
-            logger.info(f"PDB train: {len(pdb_train)}, DDI train: {len(ddi_train)}")
+            log_rank0(f"PDB train: {len(pdb_train)}, DDI train: {len(ddi_train)}")
         else:
             self.train_dataset = LinkerMultimerDataset(pdb_train, **data_kwargs)
             self.val_dataset = LinkerMultimerDataset(pdb_val, **data_kwargs)
 
-        logger.info(f"Train samples: {len(self.train_dataset)}")
-        logger.info(f"Val samples: {len(self.val_dataset)}")
+        log_rank0(f"Train samples: {len(self.train_dataset)}")
+        log_rank0(f"Val samples: {len(self.val_dataset)}")
 
     def train_dataloader(self):
         return DataLoader(
@@ -432,6 +453,7 @@ class ESMFoldDataModule(LightningDataModule):
             collate_fn=collate_fn,
             pin_memory=True,
             persistent_workers=self.num_workers > 0,
+            drop_last=True,  # Avoid uneven batches across ranks
         )
 
     def val_dataloader(self):
@@ -443,6 +465,7 @@ class ESMFoldDataModule(LightningDataModule):
             collate_fn=collate_fn,
             pin_memory=True,
             persistent_workers=self.num_workers > 0,
+            drop_last=True,  # Avoid uneven batches across ranks
         )
 
 
@@ -478,49 +501,58 @@ class ESMFoldLightningModule(LightningModule):
         self.limit_train_batches = limit_train_batches
         self.gradient_accumulation_steps = gradient_accumulation_steps
 
-        # Load ESMFold (lazy import)
-        esm_module, _ = _load_esm_module()
-        if ESMFOLD_AVAILABLE and esm_module is not None:
-            logger.info("Loading pretrained ESMFold model...")
-            self.model = esm_module.pretrained.esmfold_v1()
+        # Load HuggingFace ESMFold
+        EsmForProteinFolding, EsmTokenizer = _load_hf_esmfold()
+        if ESMFOLD_AVAILABLE and EsmForProteinFolding is not None:
+            log_rank0("Loading HuggingFace ESMFold model...")
+            self.model = EsmForProteinFolding.from_pretrained("facebook/esmfold_v1")
+            self.tokenizer = EsmTokenizer.from_pretrained("facebook/esmfold_v1")
 
             # Set chunk_size for memory efficiency
             if hasattr(self.model, "trunk") and hasattr(self.model.trunk, "chunk_size"):
                 self.model.trunk.chunk_size = chunk_size
-                logger.info(f"Set ESMFold trunk chunk_size to {chunk_size}")
+                log_rank0(f"Set ESMFold trunk chunk_size to {chunk_size}")
 
-            # Convert model to uniform dtype for FSDP compatibility
-            # ESMFold has mixed fp16/fp32 params which FSDP cannot handle
-            logger.info("Converting model to float32 for FSDP compatibility")
+            # HuggingFace models are typically float32 by default, but ensure it
+            log_rank0("Ensuring model is float32 for compatibility")
             self.model = self.model.float()
 
             # Freeze ESM trunk if requested
             if freeze_esm_trunk:
-                logger.info("Freezing ESM trunk parameters")
+                log_rank0("Freezing ESM trunk parameters")
                 for param in self.model.esm.parameters():
                     param.requires_grad = False
+                # Keep ESM trunk in eval mode, but put folding module in train mode
+                self.model.esm.eval()
+
+            # Ensure the folding trunk is in train mode
+            if hasattr(self.model, "trunk"):
+                self.model.trunk.train()
+                log_rank0("Set folding trunk to train mode")
         else:
             raise RuntimeError(
-                f"ESMFold not available. ESMFOLD_AVAILABLE={ESMFOLD_AVAILABLE}. "
-                "Install with: pip install fair-esm[esmfold]"
+                f"HuggingFace ESMFold not available. ESMFOLD_AVAILABLE={ESMFOLD_AVAILABLE}. "
+                "Install with: pip install transformers"
             )
 
     def forward(self, sequences: List[str]):
-        """Forward pass through ESMFold."""
-        from esm.esmfold.v1.misc import batch_encode_sequences
+        """Forward pass through HuggingFace ESMFold."""
+        device = next(self.model.parameters()).device
 
-        aatype, mask, residx, linker_mask_esm, chain_index = batch_encode_sequences(
-            sequences, residue_index_offset=512, chain_linker="G" * 25
+        # Tokenize sequences
+        inputs = self.tokenizer(
+            sequences,
+            return_tensors="pt",
+            padding=True,
+            add_special_tokens=False,  # ESMFold doesn't use special tokens
         )
 
-        device = next(self.model.parameters()).device
-        aatype = aatype.to(device)
-        mask = mask.to(device)
-        residx = residx.to(device)
+        # Move to device
+        input_ids = inputs["input_ids"].to(device)
+        attention_mask = inputs["attention_mask"].to(device)
 
-        # Forward pass with autocast disabled for stability
-        # FSDP handles mixed precision at the wrapper level
-        outputs = self.model.forward(aatype, mask=mask, residx=residx)
+        # Forward pass
+        outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
 
         return outputs
 
@@ -561,7 +593,7 @@ class ESMFoldLightningModule(LightningModule):
 
         # NaN safeguard
         if torch.isnan(loss) or torch.isinf(loss):
-            logger.warning(f"NaN/Inf loss detected, returning zero loss")
+            log_rank0("NaN/Inf loss detected, returning zero loss", "warning")
             loss = torch.tensor(0.0, device=device, requires_grad=True)
 
         return loss
@@ -570,31 +602,45 @@ class ESMFoldLightningModule(LightningModule):
         sequences = batch["sequences"]
         true_coords = batch["coords"]
         linker_mask = batch["linker_mask"]
+        device = true_coords.device
 
         try:
+            # Sync CUDA before forward to ensure consistent stream state
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
+
             outputs = self.forward(sequences)
-            pred_coords = outputs["positions"][-1, :, :, 1, :]  # CA atoms
+
+            # Sync CUDA after forward to ensure all ops complete before loss computation
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
+
+            # HuggingFace ESMFold: outputs.positions shape is (batch, residues, atoms, 3)
+            # Extract CA atoms (index 1)
+            pred_coords = outputs.positions[:, :, 1, :]  # CA atoms
 
             loss = self._compute_masked_loss(pred_coords, true_coords, linker_mask)
 
-            # Skip if NaN
+            # Replace NaN/Inf with zero loss (don't return None - causes distributed hangs)
             if torch.isnan(loss) or torch.isinf(loss):
-                return None
+                log_rank0(f"NaN/Inf loss at batch {batch_idx}, using zero", "warning")
+                loss = torch.zeros(1, device=device, requires_grad=True).squeeze()
 
             # Log metrics
             self.log("train_loss", loss, prog_bar=True, sync_dist=True)
 
-            if outputs.get("plddt") is not None:
-                plddt_mean = outputs["plddt"].mean()
+            if hasattr(outputs, "plddt") and outputs.plddt is not None:
+                plddt_mean = outputs.plddt.mean()
                 self.log("train_plddt", plddt_mean, sync_dist=True)
 
             return loss
 
         except RuntimeError as e:
             if "out of memory" in str(e).lower():
-                logger.warning(f"OOM in training step, skipping batch")
+                log_rank0(f"OOM in training step, using zero loss", "warning")
                 torch.cuda.empty_cache()
-                return None
+                # Return zero loss instead of None to avoid distributed hangs
+                return torch.zeros(1, device=device, requires_grad=True).squeeze()
             raise
 
     def validation_step(self, batch, batch_idx):
@@ -603,19 +649,34 @@ class ESMFoldLightningModule(LightningModule):
         linker_mask = batch["linker_mask"]
 
         outputs = self.forward(sequences)
-        pred_coords = outputs["positions"][-1, :, :, 1, :]
+
+        # Sync CUDA before accessing outputs
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+
+        # HuggingFace ESMFold: outputs.positions shape is (batch, residues, atoms, 3)
+        pred_coords = outputs.positions[:, :, 1, :]  # CA atoms
 
         loss = self._compute_masked_loss(pred_coords, true_coords, linker_mask)
 
         self.log("val_loss", loss, prog_bar=True, sync_dist=True)
 
-        if outputs.get("plddt") is not None:
-            self.log("val_plddt", outputs["plddt"].mean(), sync_dist=True)
+        if hasattr(outputs, "plddt") and outputs.plddt is not None:
+            self.log("val_plddt", outputs.plddt.mean(), sync_dist=True)
 
         return loss
 
+    def on_after_backward(self):
+        """Synchronize CUDA after backward pass to prevent DDP hangs."""
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+
     def on_before_optimizer_step(self, optimizer):
         """Manually clip gradients for FSDP compatibility."""
+        # Sync CUDA before optimizer step to ensure all gradient computations are done
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+
         # FSDP requires using its own gradient clipping method
         if hasattr(self.trainer.strategy, "clip_gradients"):
             # Use FSDP's gradient clipping
@@ -648,10 +709,10 @@ class ESMFoldLightningModule(LightningModule):
             # Fallback: estimate based on typical dataset size
             # This will be refined once training starts
             num_training_steps = 10000
-            logger.warning(f"Using fallback num_training_steps={num_training_steps}")
+            log_rank0(f"Using fallback num_training_steps={num_training_steps}", "warning")
 
         num_warmup_steps = int(num_training_steps * self.warmup_epochs / self.max_epochs)
-        logger.info(f"LR schedule: {num_training_steps} total steps, {num_warmup_steps} warmup")
+        log_rank0(f"LR schedule: {num_training_steps} total steps, {num_warmup_steps} warmup")
 
         # Cosine annealing with warmup
         def lr_lambda(current_step):
@@ -751,6 +812,11 @@ def main():
     # Enable tensor cores for better performance
     torch.set_float32_matmul_precision('medium')
 
+    # Disable cudnn benchmark to avoid CUDA stream inconsistencies with DDP
+    # Benchmark mode can cause non-deterministic stream usage which causes hangs
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
     # Data module
     data_config = config.get("data", {})
     datamodule = ESMFoldDataModule(
@@ -806,8 +872,46 @@ def main():
         tags=wandb_config.get("tags", [args.experiment, "esmfold", "fsdp"]),
     )
 
-    # FSDP Strategy
-    strategy = get_fsdp_strategy(num_gpus=args.devices)
+    # Strategy: use FSDP for multi-GPU (unless disabled), auto for single GPU
+    use_fsdp = config.get("use_fsdp", True)
+    use_dp = config.get("use_dp", False)  # Use DataParallel instead of DDP
+    if args.devices > 1 or args.num_nodes > 1:
+        if use_dp:
+            # Use DeepSpeed Zero-1 strategy - better gradient sync handling
+            # than vanilla DDP, works with frozen parameters
+            strategy = DeepSpeedStrategy(
+                stage=1,  # Zero-1: just optimizer state partitioning
+                offload_optimizer=False,
+                allgather_bucket_size=5e8,
+                reduce_bucket_size=5e8,
+            )
+            precision = config.get("precision", 32)
+            if precision == "bf16":
+                precision = "bf16-mixed"
+            log_rank0(f"Using DeepSpeed Zero-1 strategy with {args.devices} GPUs, precision={precision}")
+        elif use_fsdp:
+            strategy = get_fsdp_strategy(num_gpus=args.devices)
+            precision = "bf16-mixed"
+            log_rank0(f"Using FSDP strategy with {args.devices} GPUs")
+        else:
+            # DDP with find_unused_parameters for frozen ESM trunk
+            # broadcast_buffers=False and gradient_as_bucket_view=False help avoid
+            # CUDA stream mismatch issues that can cause DDP hangs
+            strategy = DDPStrategy(
+                find_unused_parameters=True,
+                broadcast_buffers=False,  # Avoid buffer broadcast (can cause stream issues)
+                gradient_as_bucket_view=False,  # Disable bucket optimization (can cause stream issues)
+            )
+            precision = config.get("precision", 32)
+            if precision == "bf16":
+                precision = "bf16-mixed"
+            log_rank0(f"Using DDP strategy with {args.devices} GPUs, precision={precision}")
+    else:
+        strategy = "auto"
+        precision = config.get("precision", 32)
+        if precision == "bf16":
+            precision = "bf16-mixed"
+        log_rank0(f"Using single GPU with precision={precision}")
 
     # Trainer
     # Note: gradient_clip_val with 'norm' algorithm is not supported with FSDP
@@ -817,7 +921,7 @@ def main():
         devices=args.devices,
         num_nodes=args.num_nodes,
         strategy=strategy,
-        precision="bf16-mixed",
+        precision=precision,
         max_epochs=config.get("max_epochs", 30),
         max_steps=config.get("max_steps", -1),  # Use -1 for unlimited
         # gradient_clip_val removed - not compatible with FSDP, handled manually
@@ -834,13 +938,13 @@ def main():
     )
 
     # Train
-    logger.info(f"Starting training: {args.experiment}")
-    logger.info(f"Nodes: {args.num_nodes}, GPUs/node: {args.devices}")
-    logger.info(f"Output: {output_dir}")
+    log_rank0(f"Starting training: {args.experiment}")
+    log_rank0(f"Nodes: {args.num_nodes}, GPUs/node: {args.devices}")
+    log_rank0(f"Output: {output_dir}")
 
     trainer.fit(model, datamodule=datamodule)
 
-    logger.info("Training complete!")
+    log_rank0("Training complete!")
 
 
 if __name__ == "__main__":
