@@ -1,0 +1,70 @@
+# ESMFold 1-hour training run on multimer data
+# Uses DeepSpeed Zero-1, crop_size 512, bf16
+
+experiment: esmfold_multimer_1hr
+description: "1-hour ESMFold training on PDB multimers with linker trick"
+
+# Data settings - use sample multimer data
+data:
+  max_length: 1024
+  crop_size: 512  # Full crop size for proper multimer prediction
+  date_cutoff: "2021-09-30"
+  use_sample_data: true
+
+# Linker configuration (25 glycine linker)
+linker:
+  sequence: "GGGGGGGGGGGGGGGGGGGGGGGGG"
+  use_chain_break_token: true
+
+# Model settings
+model:
+  freeze_esm_trunk: true
+  chunk_size: 64  # Memory-efficient chunking
+
+# Training settings
+batch_size: 1
+effective_batch_size: 8
+gradient_accumulation_steps: 8
+
+learning_rate: 1.0e-5
+min_learning_rate: 1.0e-7
+weight_decay: 0.01
+grad_clip: 0.5
+
+max_epochs: 100  # Will be limited by time, not epochs
+warmup_epochs: 2
+early_stopping_patience: 20
+
+# Use DeepSpeed Zero-1 (use_dp: true triggers DeepSpeed)
+use_fsdp: false
+use_dp: true
+precision: bf16
+
+# Optimization
+optimizer: adamw
+scheduler: cosine_with_warmup
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# Logging - log frequently for monitoring
+log_every_n_steps: 1
+val_check_interval: 1.0
+save_every_n_epochs: 1
+
+# No artificial limits - run for full hour
+limit_train_batches: null
+limit_val_batches: null
+max_steps: -1
+
+# Wandb logging
+wandb:
+  project: "ddi-experiment"
+  entity: null
+  tags:
+    - esmfold
+    - multimer
+    - deepspeed
+    - bf16
+    - 1hr-run
